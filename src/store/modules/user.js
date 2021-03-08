@@ -51,7 +51,6 @@ const actions = {
           Message.info('亲, 您的帐户被锁定, 请联系上级！')
           reject()
         }
-        console.log('msg ', msg)
         $ws.doData(body)
         $Global.optioner.UserName = msg.JsonData.name
         $Global.optioner.Id = msg.JsonData.Id

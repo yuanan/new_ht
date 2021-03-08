@@ -103,7 +103,7 @@ export const constantRoutes = [
       {
         path: 'index',
         component: () => import('@/views/profile/index'),
-        name: 'Profile',
+        // name: 'Profile',
         meta: { title: 'profile', icon: 'user', noCache: true }
       }
     ]
@@ -119,30 +119,43 @@ export const asyncRoutes = [
   manageUserRouter,
   reportLog,
 
-  {
-    path: '/error',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'ErrorPages',
-    meta: {
-      title: 'errorPages',
-      icon: '404'
-    },
-    children: [
-      {
-        path: '401',
-        component: () => import('@/views/error-page/401'),
-        name: 'Page401',
-        meta: { title: 'page401', noCache: true }
-      },
-      {
-        path: '404',
-        component: () => import('@/views/error-page/404'),
-        name: 'Page404',
-        meta: { title: 'page404', noCache: true }
-      }
-    ]
-  },
+  // {
+  //   path: '/error',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'ErrorPages',
+  //   meta: {
+  //     title: 'errorPages',
+  //     icon: '404'
+  //   },
+  //   children: [
+  //     {
+  //       path: '401',
+  //       component: () => import('@/views/error-page/401'),
+  //       name: 'Page401',
+  //       meta: { title: 'page401', noCache: true }
+  //     },
+  //     {
+  //       path: '404',
+  //       component: () => import('@/views/error-page/404'),
+  //       name: 'Page404',
+  //       meta: { title: 'page404', noCache: true }
+  //     }
+  //   ]
+  // },
+
+  // {
+  //   path: '/about-me',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'profile',
+  //       component: () => import('@/views/profile/index'),
+  //       name: 'Profile',
+  //       meta: { title: 'profile', icon: 'user', noCache: true }
+  //     }
+  //   ]
+  // },
 
   {
     path: '/bet-records',
@@ -192,6 +205,21 @@ export const asyncRoutes = [
         component: () => import('@/views/agent-notice/index'),
         name: 'PublicAnnouncement ',
         meta: { title: 'PublicAnnouncement', icon: 'education' }
+      }
+    ]
+  },
+  {
+    path: '/about-me',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'Profile',
+    meta: { title: 'profile', icon: 'user' },
+    children: [
+      {
+        path: 'profile',
+        component: () => import('@/views/profile/index'),
+        name: 'AboutMe',
+        meta: { title: 'profile', icon: 'user', noCache: true }
       }
     ]
   },

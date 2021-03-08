@@ -74,8 +74,8 @@
           </template>
         </el-table-column>
         <el-table-column property="mBalance" sortable label="当前余额" align="right" width="120px" />
-        <el-table-column property="xmb" label="洗码比(单/双)%" align="center" width="130px" />
-        <el-table-column prop="sEnable" label="状态" align="left" width="160px">
+        <el-table-column property="xmb" label="洗码比(单/双)%" align="center" width="140px" />
+        <el-table-column prop="sEnable" label="状态" align="center" width="80px">
           <template slot-scope="scope">
             <el-switch
               v-model="scope.row.sEnable"
@@ -83,15 +83,13 @@
               inactive-color="#F04134"
               active-value="启用"
               inactive-value="禁用"
-              active-text="启用"
-              inactive-text="禁用"
               @change="changeSwitch(scope.row)"
             />
           </template>
         </el-table-column>
-        <el-table-column property="lastLoginIp" label="最近登录IP" align="left" width="140" />
+        <el-table-column property="lastLoginIp" label="最近登录IP" align="left" min-width="90" />
         <el-table-column property="terminal" label="终端" align="left" />
-        <el-table-column property="onLineState" label="在线状态" align="left">
+        <el-table-column property="onLineState" label="在线状态" align="left" width="100">
           <template slot-scope="scope">
             <span v-show="scope.row.onLineState=='在线'">
               <font color="red">{{ scope.row.onLineState }}</font>

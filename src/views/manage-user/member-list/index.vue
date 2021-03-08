@@ -209,12 +209,12 @@
             <font color="#9c27b0">{{ scope.row.upperAgent }}</font>
           </template>
         </el-table-column>
-        <el-table-column property="xmKind" label="洗码类型" align="left" />
-        <el-table-column property="xmb" label="洗码比(单/双)%" align="left" width="130px" />
-        <el-table-column property="createDate" label="开户日期" align="left" width="120px" />
-        <el-table-column property="lastLoginIp" label="最近登录IP" align="left" />
-        <el-table-column property="lastLoginTime" label="最近登录" align="left" width="120px" />
-        <el-table-column property="onLine" label="在线" align="left">
+        <el-table-column property="xmKind" label="洗码类型" align="left" width="90"/>
+        <el-table-column property="xmb" label="洗码比(单/双)%" align="left" width="80px" />
+        <el-table-column property="createDate" label="开户日期" align="left" min-width="110px" />
+        <el-table-column property="lastLoginIp" label="最近登录IP" align="left" min-width="110"/>
+        <el-table-column property="lastLoginTime" label="最近登录" align="left" min-width="110px" />
+        <el-table-column property="onLine" label="在线" align="left" width="80">
           <template slot-scope="scope">
             <span v-show="scope.row.onLine==='在线'">
               <font color="red">{{ scope.row.onLine }}</font>
@@ -222,7 +222,7 @@
             <span v-show="scope.row.onLine==='离线'">{{ scope.row.onLine }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="sEnable" label="状态" align="left" width="80px">
+        <el-table-column prop="sEnable" label="状态" align="center" width="80px">
           <template slot-scope="scope">
             <el-switch
               v-model="scope.row.sEnable"

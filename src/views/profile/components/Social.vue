@@ -7,6 +7,9 @@
       <el-form-item label="微信号">
         <el-input v-model="form.wxh" autocomplete="off" />
       </el-form-item>
+      <el-form-item label="手机号">
+        <el-input v-model="form.phone" autocomplete="off" />
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submit">Update</el-button>
       </el-form-item>
@@ -21,7 +24,8 @@ export default {
     return {
       form: {
         qq: '',
-        wxh: ''
+        wxh: '',
+        phone: ''
       }
     }
   },
@@ -51,6 +55,7 @@ export default {
         JsonData: {
           QQ: this.form.qq || '',
           WXH: this.form.wxh || '',
+          phone: this.form.phone || '',
           userId: this.$Global.optioner.Id
         }
       }

@@ -32,7 +32,7 @@
         border
         :row-class-name="tableRowClassName"
       >
-        <el-table-column property="agentAccount" fixed label="代理帐号" min-width="100">
+        <el-table-column property="agentAccount" fixed label="代理帐号" width="120">
           <template slot-scope="scope">
             <span @click="cellClick(scope.row.agentAccount, scope.row.Id)">
               <font color="blue" style="cursor: pointer">{{ scope.row.agentAccount }}</font>
@@ -49,9 +49,9 @@
         </el-table-column>
         <el-table-column property="aBalance" fixed label="当前余额" />
         <el-table-column property="zcb" label="占成比(%)" width="90px" />
-        <el-table-column property="xmb" label="洗码比(单/双)%" width="130px" />
-        <el-table-column property="xmType" label="洗码类型" />
-        <el-table-column prop="sEnable" label="状态" width="80px">
+        <el-table-column property="xmb" label="洗码比(单/双)%" width="80px" />
+        <el-table-column property="xmType" label="洗码类型" width="100"/>
+        <el-table-column prop="sEnable" label="状态" width="80px" align="center">
           <template slot-scope="scope">
             <el-switch
               v-model="scope.row.sEnable"
@@ -63,8 +63,8 @@
             />
           </template>
         </el-table-column>
-        <el-table-column property="createDate" label="开户时间" width="110px" />
-        <el-table-column property="lastLoginTime" label="最近登录" width="110px" />
+        <el-table-column property="createDate" label="开户时间" min-width="110px" />
+        <el-table-column property="lastLoginTime" label="最近登录" min-width="110px" />
         <el-table-column property="loginIp" label="登录IP" />
         <el-table-column label="操作" width="400px">
           <template slot-scope="scope">

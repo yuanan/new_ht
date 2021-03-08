@@ -5,9 +5,9 @@
     <el-button type="primary" icon="el-icon-plus" plain @click="addNoticeMsg">添加公告消息</el-button>
     <!-- </div> -->
     <!-- </section> -->
-    <section>
+    <section style="margin-top: 20px;">
       <!-- <div style="font-weight: 900; padding: 20px 0 10px 0">公告列表：</div> -->
-      <div>
+      <el-card>
         <el-table
           :data="noticeData"
           style="width:100%;margin-top:10px"
@@ -27,7 +27,7 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
+      </el-card>
     </section>
     <section>
       <el-dialog

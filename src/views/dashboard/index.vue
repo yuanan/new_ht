@@ -27,11 +27,22 @@ export default {
   //     this.currentRole = 'editorDashboard'
   //   }
   // }
+  watch: {
+    $route(to, from) {
+      console.log(from.path) // 从哪来
+      console.log(to.path) // 到哪去
+      if (to.path === '/dashboard' || to.path === '/about-me/profile') {
+        this.interval = setInterval(this.getData, 10000)
+      } else {
+        clearInterval(this.interval)
+      }
+    }
+  },
   created() {
     this.$store.state.ht.myCenterFrm &&
       Object.assign(this.myCenterFrm, this.$store.state.ht.myCenterFrm)
     this.getData()
-    this.interval = setInterval(this.getData, 10000)
+    // this.interval = setInterval(this.getData, 10000)
   },
   methods: {
     getData() {
@@ -42,5 +53,8 @@ export default {
       this.$pomelo.send(sendStr)
     }
   }
+  // destroyed() {
+  //   console.log('dashboard destoryed ............')
+  // }
 }
 </script>
