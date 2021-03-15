@@ -325,6 +325,7 @@ function GetJxb (rData) {
 }
 
 function GetAgentTree (rData) {
+  console.log('tree data .. ', rData)
   var data = rData.JsonData
   var treeData = {}
   treeData.tableData = data
@@ -823,12 +824,13 @@ function SetMyCenterForm (rData) {
 }
 
 function setAgentAdminForm (rData) {
-  // console.log(rData)
+  console.log('agent --', rData)
   var data = rData.JsonData;
   var agentAdminForm = { tableData: [] }
   var tableData = agentAdminForm.tableData
   for (var i = 0; i < data.length; i++) {
     tableData[i] = {}
+    tableData[i].Id = data[i].Id
     tableData[i].agentAccount = data[i].name
     tableData[i].name = data[i].nikename
     tableData[i].aBalance = data[i].ye
@@ -916,6 +918,7 @@ function editOwnQQ(rData) {
     Message.info(data.msg)
   }
 }
+
 
 function trasMemo (memo) {
   if (memo == '' || memo == '本局无效' || !memo) return memo

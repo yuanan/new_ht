@@ -9,7 +9,11 @@
       </el-form-item>
       <el-form-item>
         <el-button size="medium" type="primary" icon="el-icon-search" @click="doFindMember()">查找</el-button>
+      </el-form-item>
+      <el-form-item>
         <el-button size="medium" type="primary" icon="el-icon-refresh" @click="doRefreshMember()">刷新</el-button>
+      </el-form-item>
+      <el-form-item>
         <el-button size="medium" type="info" icon="el-icon-refresh-right" @click="doReload()">重置</el-button>
       </el-form-item>
     </el-form>
@@ -73,8 +77,8 @@
         <el-table-column property="mBalance" sortable label="当前余额" align="left" />
         <el-table-column property="roomAddr" label="所在房间" align="left" />
         <el-table-column property="xmb" label="洗码比(单/双)%" align="left" width="80px" />
-        <el-table-column property="lastLoginIp" label="最近登录ip" align="left" min-width="100"/>
-        <el-table-column property="terminal" label="终端" align="left" width="90"/>
+        <el-table-column property="lastLoginIp" label="最近登录ip" align="left" min-width="100" />
+        <el-table-column property="terminal" label="终端" align="left" width="90" />
         <el-table-column property="onLineState" label="在线状态" align="left" width="90">
           <template slot-scope="scope">
             <span v-show="scope.row.onLineState==='在线'">

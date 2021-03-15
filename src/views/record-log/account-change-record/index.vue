@@ -20,7 +20,11 @@
       </el-form-item>
       <el-form-item>
         <el-button size="medium" icon="el-icon-search" type="primary" @click="doFindAccountChangeLog()">查找</el-button>
+      </el-form-item>
+      <el-form-item>
         <el-button size="medium" icon="el-icon-refresh" type="info" @click="doRefresh()">刷新</el-button>
+      </el-form-item>
+      <el-form-item>
         <el-button size="medium" icon="el-icon-refresh" type="primary" @click="doReset()">重置</el-button>
       </el-form-item>
     </el-form>
@@ -412,39 +416,4 @@ export default {
   float: right;
   min-width: 200px;
 }
-/* .accountChangeRecord > .head > .el-col > .el-col {
-  padding: 20px 5px;
-  border-right: solid 1px rgba(255, 220, 136, 0.15);
-}
-.accountChangeRecord .head {
-  text-align: center;
-  color: #fff;
-  font-size: 30px;
-  margin-bottom: 50px;
-}
-.accountChangeRecord .head span {
-  font-size: 16px;
-}
-
-.inputBox .el-input__inner {
-  height: 30px !important;
-}
-.row-bg {
-  padding-top: 0px;
-  padding-left: 10px;
-  height: 35px;
-}
-.formBtn {
-  margin-top: 0px;
-}
-#topCar6 {
-  margin-top: 25px;
-  width: 100%;
-  height: 80px;
-  padding: 0px;
-}
-#box-card {
-  margin-top: 5px;
-  padding: 0px;
-} */
 </style>

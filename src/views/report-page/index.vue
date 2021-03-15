@@ -17,7 +17,11 @@
       </el-form-item>
       <el-form-item>
         <el-button size="medium" icon="el-icon-search" type="primary" @click="doFind()">查找</el-button>
+      </el-form-item>
+      <el-form-item>
         <el-button size="medium" icon="el-icon-refresh" type="primary" @click="doReFresh()">刷新</el-button>
+      </el-form-item>
+      <el-form-item>
         <el-button size="medium" icon="el-icon-refresh-right" type="info" @click="doReset()">重置</el-button>
       </el-form-item>
     </el-form>

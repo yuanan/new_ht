@@ -31,10 +31,17 @@ export default {
     $route(to, from) {
       console.log(from.path) // 从哪来
       console.log(to.path) // 到哪去
-      if (to.path === '/dashboard' || to.path === '/about-me/profile') {
+      console.log(this.$route.path === '/dashboard' || this.$route.path === '/about-me/profile')
+      // if (to.path === '/dashboard' || to.path === '/about-me/profile') {
+      if (this.$route.path === '/dashboard' || this.$route.path === '/about-me/profile') {
+        if (this.interval !== null) {
+          clearInterval(this.interval)
+          this.interval = null
+        }
         this.interval = setInterval(this.getData, 10000)
       } else {
         clearInterval(this.interval)
+        this.interval = null
       }
     }
   },
@@ -46,6 +53,7 @@ export default {
   },
   methods: {
     getData() {
+      console.log('getcenterinfo')
       const sendStr = {
         router: 'GetCenterInfo',
         JsonData: { name: this.$Global.optioner.UserName }

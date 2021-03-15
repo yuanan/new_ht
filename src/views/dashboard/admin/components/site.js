@@ -38,7 +38,7 @@ export default {
   },
   xh: {
     company: 'xh', // 鑫豪国际
-    Id: '****',
+    Id: '27010',
     service: 'xhkf.hn885.com',
     h5: 'xh8818.com',
     xianjin: 'http://xh9988.com/'
@@ -46,6 +46,6 @@ export default {
   agent: {
     old1: 'hn2201.com',
     old2: 'hn2210.com',
-    new: 'dl8808.com'
+    new: '510990.com'
   }
 }

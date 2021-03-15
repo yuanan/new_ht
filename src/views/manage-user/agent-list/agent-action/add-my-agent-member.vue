@@ -15,7 +15,7 @@
               <el-form-item label="账号" prop="memberName" required>
                 <el-input v-model="myFrm.memberName" autocomplete="off" @keyup.native="btKeyUp" @keydown.native="btKeyUp" />
               </el-form-item>
-              <el-form-item label="账号密码" prop="pw" required>
+              <el-form-item label="密码" prop="pw" required>
                 <el-input v-model="myFrm.pw" autocomplete="off" />
               </el-form-item>
               <el-form-item label="特别备注" prop="memo">

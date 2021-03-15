@@ -93,7 +93,8 @@ const state = {
   ip: '',
   gk_info: '',
   options: [],
-  activeIndex: '/user'
+  activeIndex: '/user',
+  relations: []
 }
 
 const mutations = {
@@ -206,6 +207,9 @@ const mutations = {
   sendMsg(state, payload) {
     const sendStr = JSON.stringify(payload)
     state.WS.send(sendStr)
+  },
+  setRelations(state, payload) {
+    state.relations = payload
   },
 
   // 公告

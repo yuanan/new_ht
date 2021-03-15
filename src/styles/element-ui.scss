@@ -134,3 +134,27 @@
   border-radius: 0 !important;
 }
 
+
+.el-dropdown-menu {
+  border-radius: 0 !important;
+}
+
+// .el-dropdown-menu__item {
+//   padding-left: 0 !important;
+// }
+
+.el-dropdown {
+  user-select: none;
+}
+
+.el-dropdown-menu--medium {
+  padding: 10px 0 !important;
+}
+
+.el-dropdown-link {
+  cursor: pointer;
+  color: #FF5722;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}

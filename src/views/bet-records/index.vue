@@ -9,11 +9,11 @@
         <el-date-picker v-model="endDate" type="date" style="width:140px" />
         <el-time-picker v-model="endTime" arrow-control style="width:120px" />
       </el-form-item>
-      <el-form-item prop="account">
-        <el-input v-model="form.account" placeholder="会员账号" style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFind()" />
+      <el-form-item prop="ID">
+        <el-input v-model="form.Id" placeholder="会员ID" style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFind()" />
       </el-form-item>
-      <el-form-item prop="用户Id">
-        <el-input v-model="form.Id" placeholder="用户ID" style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFind()" />
+      <el-form-item prop="account">
+        <el-input v-model="form.account" placeholder="账号" style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFind()" />
       </el-form-item>
       <el-form-item>
         <el-select v-model="gameTypeValue" style="width:155px"> <!-- :change="doFind()"-->
@@ -31,7 +31,11 @@
       </el-form-item>
       <el-form-item>
         <el-button size="medium" icon="el-icon-search" type="primary" @click="doFind()">查找</el-button>
+      </el-form-item>
+      <el-form-item>
         <el-button size="medium" icon="el-icon-refresh" type="primary" @click="doRefresh()">刷新</el-button>
+      </el-form-item>
+      <el-form-item>
         <el-button size="medium" icon="el-icon-refresh-right" type="info" @click="doReset()">重置</el-button>
       </el-form-item>
     </el-form>
@@ -44,6 +48,15 @@
       <el-button size="small" type="warning" @click="doSelectDate(6)">上月</el-button>
       <!-- <el-button size="small" icon="el-icon-document" style="margin-bottom: 10px" @click="excelExport()">导出</el-button> -->
 
+      <el-checkbox v-model="showTable.memberId" class="filter-item" style="margin-left:15px; color: #FF5722" @change="tableKey=tableKey+1">
+        会员ID
+      </el-checkbox>
+      <el-checkbox v-model="showTable.balanceMemo" class="filter-item" style="color: #FF5722" @change="tableKey=tableKey+1">
+        余额备注
+      </el-checkbox>
+      <el-checkbox v-model="showTable.ip" class="filter-item" style="margin-left: -5px; color: #FF5722" @change="tableKey=tableKey+1">
+        投注IP
+      </el-checkbox>
       <el-pagination
         :current-page="1"
         :page-size="pageSize"
@@ -137,7 +150,7 @@
         border
         :row-class-name="tableRowClassName"
       >
-        <el-table-column property="memberId" fixed label="会员ID" width="70px" />
+        <el-table-column v-if="showTable.memberId" property="memberId" fixed label="会员ID" width="70px" />
         <el-table-column property="memberAccount" fixed label="帐号" width="90px">
           <template slot-scope="scope">
             <span v-show="scope.row.win < 0">
@@ -238,8 +251,8 @@
         <el-table-column property="xmKind" label="洗码类型" align="left" />
         <el-table-column property="validBet" label="有效投注" align="left" />
         <el-table-column property="balance" label="余额" align="left" />
-        <el-table-column property="balanceMemo" label="余额备注" align="left" width="180px" />
-        <el-table-column property="ip" label="投注IP" align="left" />
+        <el-table-column v-if="showTable.balanceMemo" property="balanceMemo" label="余额备注" align="left" width="180px" />
+        <el-table-column v-if="showTable.ip" property="ip" label="投注IP" align="left" />
         <el-table-column property="terminal" label="终端" align="left" width="80px" />
       </el-table>
 
@@ -299,6 +312,12 @@ export default {
         { value: 'jsk3', label: '江苏快3' },
         { value: 'bjcs', label: '北京赛车' }
       ],
+      tableKey: 0,
+      showTable: {
+        memberId: false,
+        balanceMemo: false,
+        ip: false
+      },
       memberTradeFrm: {
         totalItemsNum: 0,
         tableData: [],

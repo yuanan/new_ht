@@ -30,7 +30,11 @@
       </el-form-item>
       <el-form-item>
         <el-button size="medium" icon="el-icon-search" type="primary" @click="doFindAccountLog()">查找</el-button>
+      </el-form-item>
+      <el-form-item>
         <el-button size="medium" icon="el-icon-refresh" type="primary" @click="doRefreshAccountLog()">刷新</el-button>
+      </el-form-item>
+      <el-form-item>
         <el-button size="medium" icon="el-icon-refresh-right" type="info" @click="doReload()">重置</el-button>
       </el-form-item>
     </el-form>

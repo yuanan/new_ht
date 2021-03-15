@@ -32,6 +32,7 @@
           <el-input
             v-model="addscoreDigFrm.deposit"
             type="number"
+            :min="0"
             autocomplete="off"
             style="width: 200px;"
           />

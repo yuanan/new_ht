@@ -9,173 +9,12 @@
       </el-form-item>
       <el-form-item>
         <el-button size="medium" icon="el-icon-search" type="primary" @click="doFindMember()">查找</el-button>
+      </el-form-item>
+      <el-form-item>
         <el-button size="medium" icon="el-icon-refresh" type="primary" @click="doRefreshMember()">刷新</el-button>
-        <!-- <el-button
-          size="small"
-          type="primary"
-          icon="el-icon-plus"
-          @click="handleAddMember()"
-        >新增会员</el-button> -->
       </el-form-item>
     </el-form>
 
-    <!-- <el-dialog title="新增会员" :visible.sync="addMemberDigFrm.addMemberDigFrmVisible" width="460px">
-      为
-      <font color="red">{{ this.$Global.optioner.UserName }}</font>新增会员
-      <hr>
-      <br>
-      <el-form
-        ref="addMemberDigFrm"
-        label-width="100px"
-        :model="addMemberDigFrm"
-        :inline="true"
-        size="mini"
-        :rules="rules"
-      >
-        <el-form-item label="会员帐号" prop="memberName">
-          <el-input
-            v-model="addMemberDigFrm.memberName"
-            autocomplete="off"
-            class="inputBox"
-            placeholder="最少3位数字或字母"
-            @keyup.native="btKeyUp"
-            @keydown.native="btKeyUp"
-          />
-        </el-form-item>
-        <el-form-item label="会员名称" prop="memberNikeName">
-          <el-input v-model="addMemberDigFrm.memberNikeName" autocomplete="off" class="inputBox" @keyup.native="btKeyUp" @keydown.native="btKeyUp" />
-        </el-form-item>
-        <el-form-item label="占成比例" prop="zcb">
-          <el-input v-model="addMemberDigFrm.zcb" autocomplete="off" class="inputBox" type="number" />
-        </el-form-item>
-        最多:{{ addMemberDigFrm.upper_zcb }}
-        <el-form-item v-if="checkSD === '单边' || arrJxb[18] === '1'" label="洗码率单(%)" prop="xmb_s">
-          <el-input v-model="addMemberDigFrm.xmb_s" autocomplete="off" class="inputBox" type="number" />
-        </el-form-item>
-        <span v-if="checkSD === '单边' || arrJxb[18] === '1'">最多:{{ addMemberDigFrm.upper_xmb_s }}</span>
-        <el-form-item v-if="checkSD === '双边' || arrJxb[18] === '1'" label="洗码率双(%)" prop="xmb_d">
-          <el-input v-model="addMemberDigFrm.xmb_d" autocomplete="off" class="inputBox" type="number" />
-        </el-form-item>
-        <span v-if="checkSD === '双边' || arrJxb[18] === '1'">最多:{{ addMemberDigFrm.upper_xmb_d }}</span>
-        <el-form-item label="洗码类型" prop="xmKind">
-          <el-select v-if="this.$Global.gxLength === 2 || this.$Global.optioner.arrJxb[18] === '1'" v-model="addMemberDigFrm.xmKind" placeholder="请选择洗码类型" style="width:155px">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-          <el-input
-            v-else
-            v-model="addMemberDigFrm.xmKind"
-            autocomplete="off"
-            class="inputBox"
-            :disabled="true"
-          />
-        </el-form-item>
-        <el-form-item label="存入金额" prop="depositMoney">
-          <el-input
-            v-model="addMemberDigFrm.depositMoney"
-            type="number"
-            autocomplete="off"
-            class="inputBox"
-          />
-        </el-form-item>
-        /&nbsp;&nbsp;{{ optionerScore }}
-        <el-form-item label="帐号密码" prop="pw">
-          <el-input
-            v-model="addMemberDigFrm.pw"
-            autocomplete="off"
-            class="inputBox"
-            placeholder="最少6位数字或字母"
-          />
-        </el-form-item>
-        <el-form-item label="取款密码" prop="drawMoneyPw">
-          <el-input v-model="addMemberDigFrm.drawMoneyPw" autocomplete="off" class="inputBox" />
-        </el-form-item>
-      </el-form>
-      <hr>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="addMemberDigFrmCancel()">取 消</el-button>
-        <el-button type="primary" @click="addMemberDigFrmOk()">确 定</el-button>
-      </div>
-    </el-dialog>
-
-    <el-dialog title="提示" :visible.sync="dialogFrm.dialogResultVisible" width="30%">
-      <span icon="info">确认要结算删除操作吗</span>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFrm.dialogResultVisible=false">取 消</el-button>
-        <el-button type="primary" @click="dialogFrm.dialogResultVisible=false">确 定</el-button>
-      </div>
-    </el-dialog> -->
-
-    <!-- <el-dialog
-      title="设定会员"
-      :visible.sync="memberSetupDigFrm.MemberSetupDigFrmVisible"
-      width="450px"
-    >
-      会员帐号：{{ optName }}
-      <hr>
-      <br>
-      <el-form
-        ref="memberSetupDigFrm"
-        :model="memberSetupDigFrm"
-        :inline="true"
-        label-width="100px"
-        size="mini"
-      >
-        <el-form-item label="会员名称" prop="memberName">
-          <el-input v-model="memberSetupDigFrm.memberName" autocomplete="off" class="inputBox" @keyup.native="btKeyUp" @keydown.native="btKeyUp" />
-        </el-form-item>
-        <el-form-item v-if="checkSD === '单边' || arrJxb[18] === '1'" label="洗码率单(%)" prop="xmb_s">
-          <el-input v-model="memberSetupDigFrm.xmb_s" autocomplete="off" class="inputBox" type="number" />
-        </el-form-item>
-        <span v-if="checkSD === '单边' || arrJxb[18] === '1'">最多:{{ this.$Global.selectInfo.xmb_s === "" ? this.$store.state.ht.myInfo.xmb_s : this.$Global.selectInfo.xmb_s }}</span>
-        <el-form-item v-if="checkSD === '双边' || arrJxb[18] === '1'" label="洗码率双(%)" prop="xmb_d">
-          <el-input v-model="memberSetupDigFrm.xmb_d" autocomplete="off" class="inputBox" type="number" />
-        </el-form-item>
-        <span v-if="checkSD === '双边' || arrJxb[18] === '1'">最多:{{ this.$Global.selectInfo.xmb_d === "" ? this.$store.state.ht.myInfo.xmb_d : this.$Global.selectInfo.xmb_d }}</span>
-        <el-form-item label="洗码类型" prop="xmKind">
-          <el-select v-if="this.$Global.gxLength === 2 || this.$Global.optioner.arrJxb[18] === '1'" v-model="memberSetupDigFrm.xmKind" placeholder="请选择洗码类型" style="width:155px">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-          <el-input
-            v-else
-            v-model="addMemberDigFrm.xmKind"
-            autocomplete="off"
-            class="inputBox"
-            :disabled="true"
-          />
-        </el-form-item>
-        <el-form-item label="帐号密码" prop="accountPw">
-          <el-input
-            v-model="memberSetupDigFrm.accountPw"
-            autocomplete="off"
-            class="inputBox"
-            placeholder="不修改密码请留空"
-          />
-        </el-form-item>
-        <el-form-item label="取款密码" prop="drawMoneyPw">
-          <el-input
-            v-model="memberSetupDigFrm.drawMoneyPw"
-            autocomplete="off"
-            class="inputBox"
-            placeholder="不修改密码请留空"
-          />
-        </el-form-item>
-      </el-form>
-      <hr>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="memberSetupCancel()">取 消</el-button>
-        <el-button type="primary" @click="memberSetupOk()">确 定</el-button>
-      </div>
-    </el-dialog> -->
     <el-card>
       <el-button size="small" icon="el-icon-document" style="margin-bottom: 10px" @click="excelExport()">导出</el-button>
       <el-pagination
@@ -209,10 +48,10 @@
             <font color="#9c27b0">{{ scope.row.upperAgent }}</font>
           </template>
         </el-table-column>
-        <el-table-column property="xmKind" label="洗码类型" align="left" width="90"/>
+        <el-table-column property="xmKind" label="洗码类型" align="left" width="90" />
         <el-table-column property="xmb" label="洗码比(单/双)%" align="left" width="80px" />
         <el-table-column property="createDate" label="开户日期" align="left" min-width="110px" />
-        <el-table-column property="lastLoginIp" label="最近登录IP" align="left" min-width="110"/>
+        <el-table-column property="lastLoginIp" label="最近登录IP" align="left" min-width="110" />
         <el-table-column property="lastLoginTime" label="最近登录" align="left" min-width="110px" />
         <el-table-column property="onLine" label="在线" align="left" width="80">
           <template slot-scope="scope">

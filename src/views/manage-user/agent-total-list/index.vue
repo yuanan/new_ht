@@ -10,7 +10,11 @@
       </el-form-item>
       <el-form-item>
         <el-button size="medium" type="primary" icon="el-icon-search" @click="doFindagent()">查找</el-button>
+      </el-form-item>
+      <el-form-item>
         <el-button size="medium" type="primary" icon="el-icon-refresh" @click="doRefreshagent()">刷新</el-button>
+      </el-form-item>
+      <el-form-item>
         <el-button size="medium" type="info" icon="el-icon-refresh-right" @click="doReload()">重置</el-button>
       </el-form-item>
     </el-form>
