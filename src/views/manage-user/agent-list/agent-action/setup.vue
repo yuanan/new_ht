@@ -117,6 +117,7 @@ export default {
   },
   methods: {
     close() {
+      console.log('agent setup ok.....')
       this.agentSetupDigFrm.accountPw = ''
       this.agentSetupDigFrm.webAddr = ''
       this.agentSetupDigFrm.drawMoneyPw = ''

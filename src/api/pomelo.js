@@ -95,7 +95,7 @@ function send(msg) {
   n = n + 1
   const en = global.en
   const msgSend = AES.encrypt(JSON.stringify(msg), en)
-  // console.log('----------------- send  ', n, '------', msg)
+  console.log('----------------- send  ', n, '------', msg)
   var route = 'agent.agentHandler.getMsg'
   p_server2.request(route, msgSend, function (res) {
     // console.log('res ', res)

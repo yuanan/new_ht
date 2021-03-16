@@ -84,6 +84,7 @@ const state = {
   modify_ok: false,
   edit_member_ok: false,
   edit_my_member_ok: false,
+  search_member_ok: false,
   edit_hg_ok: false,
   agentLimit: '', // 荷官
   optionerScore: '',
@@ -109,6 +110,9 @@ const mutations = {
   },
   setAddMYMemberState(state, payload) {
     state.edit_my_member_ok = payload
+  },
+  setSearchMemberState(state, payload) {
+    state.search_member_ok = payload
   },
   setEditPwState(state, payload) {
     state.edit_pw_ok = payload

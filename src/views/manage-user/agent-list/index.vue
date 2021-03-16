@@ -22,23 +22,24 @@
       <el-col :span="19">
         <el-card>
           <el-button size="small" icon="el-icon-document" style="margin-bottom: 10px; margin-right: 10px;" @click="excelExport()">导出</el-button>
-          <el-dropdown trigger="click">
-            <span class="el-dropdown-link">
-              添加显示<i class="el-icon-arrow-down el-icon--right" />
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>
-                <el-checkbox v-model="showTable.LastLogin" class="filter-item" style="margin-left:15px;" @change="tableKey=tableKey+1">
-                  最近登录时间
-                </el-checkbox>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <el-checkbox v-model="showTable.LastLoginIP" class="filter-item" style="margin-left:15px;" @change="tableKey=tableKey+1">
-                  最近登录IP
-                </el-checkbox>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <!-- <el-dropdown trigger="click">
+          <span class="el-dropdown-link">
+          添加显示<i class="el-icon-arrow-down el-icon--right" />
+          </span>
+          <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item> -->
+          <el-checkbox v-model="showTable.createDate" class="filter-item" style="margin-left:15px; color: #FF5722" @change="tableKey=tableKey+1">
+            开户时间
+          </el-checkbox>
+          <!-- </el-dropdown-item>  -->
+          <el-checkbox v-model="showTable.LastLogin" class="filter-item" style="color: #FF5722" @change="tableKey=tableKey+1">
+            最近登录时间
+          </el-checkbox>
+          <el-checkbox v-model="showTable.LastLoginIP" class="filter-item" style="color: #FF5722" @change="tableKey=tableKey+1">
+            最近登录IP
+          </el-checkbox>
+          <!--  </el-dropdown-menu>
+          </el-dropdown> -->
           <el-pagination
             :current-page="1"
             :page-sizes="[10, 30, 50, 100]"
@@ -74,7 +75,11 @@
               </template>
             </el-table-column>
             <el-table-column property="aBalance" label="当前余额" />
-            <el-table-column property="reference_name" label="上级代理" />
+            <el-table-column property="reference_name" label="上级代理" min-width="100">
+              <template slot-scope="{row}">
+                <font color="#F44336">{{ row.reference_name }}</font>
+              </template>
+            </el-table-column>
             <el-table-column property="zcb" label="占成比(%)" width="90px" />
             <el-table-column property="xmb" label="洗码比(单/双)%" width="80px" />
             <el-table-column property="xmType" label="洗码类型" width="100" />
@@ -90,7 +95,7 @@
                 />
               </template>
             </el-table-column>
-            <el-table-column property="createDate" label="开户时间" min-width="110px" />
+            <el-table-column v-if="showTable.createDate" property="createDate" label="开户时间" min-width="110px" />
             <el-table-column v-if="showTable.LastLogin" property="lastLoginTime" label="最近登录" min-width="110px" />
             <el-table-column v-if="showTable.LastLoginIP" property="loginIp" label="登录IP" />
             <el-table-column label="操作" width="400px">
@@ -142,7 +147,13 @@
               :expand-on-click-node="false"
               @check="handleCheck"
               @node-click="handleNodeClick"
-            />
+            >
+              <span slot-scope="{ node }" class="custom-tree-node">
+                <span>{{ node.label }}</span>
+                <font color="red"> -- </font>
+                <el-button type="text" size="mini" style="color: green; z-index: 100; padding-right: 150px" @click="goToHisPlayer(node)">会员</el-button>
+              </span>
+            </el-tree>
           </el-card>
         </el-row>
       </el-col>
@@ -198,6 +209,7 @@ export default {
       curPage: 1,
       tableKey: 0,
       showTable: {
+        createDate: false,
         LastLogin: false,
         LastLoginIP: false
       },
@@ -255,6 +267,15 @@ export default {
     this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
   },
   methods: {
+    goToHisPlayer(node) {
+      console.log(' goToHisPlayer ==============', node.label)
+      this.$router.push({
+        path: '/manageUser/member-list',
+        query: {
+          name: node.label
+        }
+      })
+    },
     // 只能输入汉字、英文、数字
     // btKeyDown(e) {
     //   e.target.value = e.target.value.replace(/[^\a-\z\A-\Z0-9]/g,'')
@@ -368,7 +389,12 @@ export default {
         }
       }
       this.$pomelo.send(sendStr)
-      this.testSearch(this.form.account)
+      if (this.form.account) {
+        this.testSearch(this.form.account)
+      } else {
+        this.testSearch(this.$Global.optioner.UserName)
+      }
+       
     },
     doRefreshAgent() {
       this.form.nikename = ''
@@ -390,8 +416,8 @@ export default {
       const sendStr = {
         router: 'GetAgentInfo',
         JsonData: {
-          name: this.$Global.selectInfo.selectAgent,
-          Id: this.$Global.optioner.Id,
+          name: this.relation[this.relation.length - 1],
+          Id: '',
           pageSize: this.pageSize,
           currentPage: val
         }
@@ -403,8 +429,8 @@ export default {
       const sendStr = {
         router: 'GetAgentInfo',
         JsonData: {
-          name: this.$Global.selectInfo.selectAgent,
-          Id: this.$Global.optioner.Id,
+          name: this.relation[this.relation.length - 1],
+          Id: '',
           pageSize: this.pageSize,
           currentPage: 1
         }
@@ -524,6 +550,7 @@ export default {
     },
     // 点击复选框
     handleCheck(data){
+      if (data === '') return
       console.log(this.$refs.tree.store.nodesMap[data].id, this.$refs.tree.store.nodesMap)
       this.relation.forEach(v => {
         this.$refs.tree.store.nodesMap[v].expanded = true
@@ -550,6 +577,7 @@ export default {
       this.$refs.excel.excleForm = true
     },
     testSearch(value) {
+      if (value === '') return
       this.expandedData = []
       this.expandedData.push(value)
       console.log(value)
@@ -634,81 +662,4 @@ export default {
   display: flex;
   margin-bottom: 10px;
 }
-</style>
-
-<style>
-.el-tree-node__expand-icon.is-leaf::before {
-  display: none;
-}
-.el-tree-node__content>.el-tree-node__expand-icon{
-  color: red !important;
-}
-.tree /deep/ .el-tree-node {
-  position: relative;
-  padding-left: 15px;
-}
-.el-tree {
-  
-  height: 60vh;
-  width: 100%;
-  overflow-x: scroll;
-}
-
-.el-tree>.el-tree-node {
-  display: inline-block;
-  min-width: 100%;
-}
-
-.tree /deep/ .el-tree-node__children {
-  padding: 0 10px;
-  overflow-x: scroll;
-}
-
-.tree /deep/ .el-tree-node :last-child:before {
-  height: 38px;
-}
-
-.tree /deep/ .el-tree > .el-tree-node:before {
-  border-left: none;
-}
-
-.tree-container /deep/ .el-tree > .el-tree-node:after {
-  border-top: none;
-}
-
-.tree /deep/ .el-tree-node:before {
-  content: "";
-  left: -5px;
-  position: absolute;
-  right: auto;
-  border-width: 1px;
-}
-
-.tree /deep/ .el-tree-node:after {
-  content: "";
-  left: -5px;
-  position: absolute;
-  right: auto;
-  border-width: 1px;
-}
-
-.tree /deep/ .el-tree-node:before {
-  border-left: 1px double #ee0a24;
-  bottom: 0px;
-  height: 100%;
-  top: -26px;
-  width: 1px;
-}
-
-.tree /deep/ .el-tree-node:after {
-  border-top: 1px dashed #ee0a24;
-  height: 20px;
-  top: 12px;
-  width: 24px;
-}
-
-/* .el-tree-node.is-current > .el-tree-node__content {
-    background-color: #1989fa4d !important;
-    color: red;
-} */
 </style>

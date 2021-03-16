@@ -2,33 +2,34 @@
   <div>
     <el-dialog v-el-drag-dialog :title="`设定玩家${memberSetupDigFrm.memberAccount}`" :visible.sync="dialogFormVisible" width="450px">
       <el-form ref="memberSetupDigFrm" :model="memberSetupDigFrm" inline label-width="100px" size="medium">
-        <el-form-item label="昵称" prop="name">
-          <el-input v-model="memberSetupDigFrm.name" autocomplete="off" @keyup.native="btKeyUp" @keydown.native="btKeyUp" />
+        <el-form-item label="账号">
+          <el-input v-model="memberSetupDigFrm.memberAccount" autocomplete="off" disabled />
         </el-form-item>
-        <el-form-item label="密码" prop="accountPw">
-          <el-input v-model="memberSetupDigFrm.accountPw" autocomplete="off" placeholder="不修改密码请留空" />
+        <el-form-item label="昵称">
+          <el-input v-model="p.name" autocomplete="off" @keyup.native="btKeyUp" />
         </el-form-item>
-        <el-form-item label="洗码类型" prop="xmKind">
-          <el-select v-if="this.$Global.gxLength === 2 || this.$Global.optioner.arrJxb[18] === '1'" v-model="memberSetupDigFrm.xmKind" placeholder="请选择洗码类型" style="width:155px">
+        <el-form-item label="密码">
+          <el-input v-model="p.accountPw" autocomplete="off" placeholder="不修改密码请留空" />
+        </el-form-item>
+        <el-form-item label="洗码类型">
+          <el-select v-if="this.$Global.gxLength === 2 || this.$Global.optioner.arrJxb[18] === '1'" v-model="p.xmKind" placeholder="请选择洗码类型" style="width:155px">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
           <el-input v-else v-model="memberSetupDigFrm.xmKind" autocomplete="off" :disabled="true" />
         </el-form-item>
 
-        <el-form-item v-if="checkSD === '单边' || arrJxb[18] === '1'" label="洗码率单(%)" prop="xmb_s">
-          <!-- <el-input v-model="memberSetupDigFrm.xmb_s" autocomplete="off" type="number" /> -->
-          <el-input-number v-model="memberSetupDigFrm.xmb_s" :step="0.1" :min="0" :max="upper.xmb_s" @change="handleChangeS" />
+        <el-form-item v-if="checkSD === '单边' || arrJxb[18] === '1'" label="洗码率单(%)">
+          <el-input-number v-model="p.xmb_s" :step="0.1" :min="0" :max="upper.xmb_s" @change="handleChangeS" />
         </el-form-item>
         <span v-if="checkSD === '单边' || arrJxb[18] === '1'" class="max-set">最多:{{ upper.xmb_s }}</span>
 
-        <el-form-item v-if="checkSD === '双边' || arrJxb[18] === '1'" label="洗码率双(%)" prop="xmb_d">
-          <!-- <el-input v-model="memberSetupDigFrm.xmb_d" autocomplete="off" type="number" /> -->
-          <el-input-number v-model="memberSetupDigFrm.xmb_d" :step="0.1" :min="0" :max="upper.xmb_d" @change="handleChangeD" />
+        <el-form-item v-if="checkSD === '双边' || arrJxb[18] === '1'" label="洗码率双(%)">
+          <el-input-number v-model="p.xmb_d" :step="0.1" :min="0" :max="upper.xmb_d" @change="handleChangeD" />
         </el-form-item>
         <span v-if="checkSD === '双边' || arrJxb[18] === '1'" class="max-set">最多:{{ upper.xmb_d }}</span>
 
-        <el-form-item label="取款密码" prop="drawMoneyPw">
-          <el-input v-model="memberSetupDigFrm.drawMoneyPw" autocomplete="off" placeholder="不修改密码请留空" />
+        <el-form-item label="取款密码">
+          <el-input v-model="p.drawMoneyPw" autocomplete="off" placeholder="不修改密码请留空" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -76,6 +77,13 @@ export default {
         accountPw: '', // 账号密码,不修改留空
         drawMoneyPw: '', // 取款密码,不修改留空
         webAddr: '' // 一键结算密码,不修改留空
+      },
+      p: {
+        name: '',
+        accountPw: '',
+        xmb_s: '',
+        xmb_d: '',
+        drawMoneyPw: ''
       }
     }
   },
@@ -87,12 +95,17 @@ export default {
     setupData: {
       handler(newValue, oldValue) {
         this.memberSetupDigFrm = newValue
-        console.log(this.memberSetupDigFrm)
-        this.memberSetupDigFrm.accountPw = ''
-        this.memberSetupDigFrm.xmb_s = newValue.xmb_s
-        this.memberSetupDigFrm.xmb_d = newValue.xmb_d
-        this.memberSetupDigFrm.xmKind = newValue.xmKind
-        this.memberSetupDigFrm.drawMoneyPw = ''
+        console.log('watch wwwwwwwwwwwwww', this.memberSetupDigFrm)
+        this.p.name = this.memberSetupDigFrm.name
+        this.p.xmb_s = Number(this.memberSetupDigFrm.xmb.split('/')[0])
+        this.p.xmb_d = Number(this.memberSetupDigFrm.xmb.split('/')[1])
+        this.p.xmKind = this.memberSetupDigFrm.xmKind
+
+        // this.memberSetupDigFrm.accountPw = ''
+        // this.memberSetupDigFrm.xmb_s = newValue.xmb_s
+        // this.memberSetupDigFrm.xmb_d = newValue.xmb_d
+        // this.memberSetupDigFrm.xmKind = newValue.xmKind
+        // this.memberSetupDigFrm.drawMoneyPw = ''
       }
     },
     MODIFY__OK: function(val) {
@@ -103,11 +116,12 @@ export default {
   },
   methods: {
     close() {
-      this.memberSetupDigFrm.accountPw = ''
-      this.memberSetupDigFrm.nikename = ''
-      this.memberSetupDigFrm.xmb_s = ''
-      this.memberSetupDigFrm.xmb_d = ''
-      this.memberSetupDigFrm.drawMoneyPw = ''
+      this.p.accountPw = ''
+      // this.p.name = ''
+      // this.p.xmb_s = ''
+      // this.p.xmb_d = ''
+      this.p.drawMoneyPw = ''
+      // this.memberSetupDigFrm = {}
       this.dialogFormVisible = false
       this.$store.commit('ht/setModifiyState', false)
     },
@@ -126,7 +140,7 @@ export default {
       }
     },
     Ok() {
-      var frm = this.memberSetupDigFrm
+      var frm = this.p
       if (frm.xmb_s > this.upper.xmb_s || frm.xmb_d > this.upper.xmb_d) {
         return this.$message.warning('洗码比不能超过上线')
       }
@@ -141,16 +155,16 @@ export default {
         router: 'editMemberInfo',
         JsonData: {
           name: this.memberSetupDigFrm.memberAccount,
-          nikename: this.memberSetupDigFrm.name,
+          nikename: this.p.name,
           zcb: null, // 会员没有占成
-          xmb_s: this.memberSetupDigFrm.xmb_s || 0,
-          xmb_d: this.memberSetupDigFrm.xmb_d || 0,
-          xmKind: this.memberSetupDigFrm.xmKind === '双边' ? 0 : 1,
+          xmb_s: this.p.xmb_s || 0,
+          xmb_d: this.p.xmb_d || 0,
+          xmKind: this.p.xmKind === '双边' ? 0 : 1,
           // eslint-disable-next-line
-          pw: this.memberSetupDigFrm.accountPw != '' ? this.$md5(this.memberSetupDigFrm.accountPw) : '',
+          pw: this.p.accountPw != '' ? this.$md5(this.p.accountPw) : '',
           // eslint-disable-next-line
-          drawMoneyPw: this.memberSetupDigFrm.drawMoneyPw != '' ? this.$md5(this.memberSetupDigFrm.drawMoneyPw) : '',
-          webAddr: this.memberSetupDigFrm.webAddr || '',
+          drawMoneyPw: this.p.drawMoneyPw != '' ? this.$md5(this.p.drawMoneyPw) : '',
+          webAddr: this.p.webAddr || '',
           level: 3,
           ip: this.$store.state.ip || '',
           optName: this.$Global.optioner.UserName

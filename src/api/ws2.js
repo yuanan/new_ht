@@ -675,6 +675,7 @@ function editUserInfo (rData) {
       formData.tableData[i].xmb = msg.xmb_s + '/' + msg.xmb_d
     }
   }
+  console.log('wssssssssssssssssss ', formData)
   if (msg.level == 2) {
     store.commit('ht/setMemberListForm', formData)
     if (data.result == 'ok') {
@@ -727,6 +728,8 @@ function setMemberAdminForm (rData) {
   }
   memberListForm.totalItemsNum = rData.totalItem
   store.commit('ht/setMemberListForm', memberListForm)
+  store.commit('ht/setSearchMemberState', true)
+  
 }
 
 function showMsg (rData) {

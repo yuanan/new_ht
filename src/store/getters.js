@@ -22,6 +22,8 @@ const getters = {
   // 代理、会员上下分====是否成功状态
   UPDOWN_OK: state => state.ht.updown_ok,
   // 设定代理、会员====是否成功状态
-  MODIFY__OK: state => state.ht.modify_ok
+  MODIFY__OK: state => state.ht.modify_ok,
+  // 搜索会员，数据变化状态
+  SEARCH_MEMBER_OK: state => state.ht.search_member_ok
 }
 export default getters

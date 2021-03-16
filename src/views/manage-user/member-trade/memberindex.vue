@@ -522,14 +522,14 @@ export default {
     findPatentValue(array, value, valueName = 'name', childrenName = 'children') {
       console.log('valudee ', value)
       // if (!value || !Array.isArray(array)) return []
-      let result = []
+      const result = []
       let valid = false
-      let seek = (array, value) => {
+      const seek = (array, value) => {
         let parentValue = ''
-        let up = (array, value, lastValue) => {
+        const up = (array, value, lastValue) => {
           array.forEach(v => {
-            let val = v[valueName]
-            let child = v[childrenName]
+            const val = v[valueName]
+            const child = v[childrenName]
             if (val === value) {
               valid = true
               parentValue = lastValue
