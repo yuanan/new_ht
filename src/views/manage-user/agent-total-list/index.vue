@@ -217,35 +217,21 @@ export default {
       e.target.value = e.target.value.replace(/[`~!#$%^&*()\-+=<>?:'{}|,.\/;'\\[\]·~！#￥%……&*（）\-+={}|《》？：“”【】、；‘’，。、]/g, '')
     },
     findAccountLog(index, row) {
-      this.$router.push({
-        path: '/recordsPage/access-records',
-        query: {
-          name: row.agentAccount
-        }
-      })
+      this.goPage('/recordsPage/access-records', { name: row.agentAccount })
     },
     findAccountLogDo(index, row) {
-      this.$router.push({
-        path: '/recordsPage/access-records',
-        query: {
-          opt_name: row.agentAccount
-        }
-      })
+      this.goPage('/recordsPage/access-records', { opt_name: row.agentAccount })
     },
     findOptLog(index, row) {
-      this.$router.push({
-        path: '/recordsPage/account-change-records',
-        query: {
-          name: row.agentAccount
-        }
-      })
+      this.goPage('/recordsPage/account-change-records', { name: row.agentAccount })
     },
     findOptLogDo(index, row) {
+      this.goPage('/recordsPage/account-change-records', { opt_name: row.agentAccount })
+    },
+    goPage(router, query) {
       this.$router.push({
-        path: '/recordsPage/account-change-records',
-        query: {
-          opt_name: row.agentAccount
-        }
+        path: `${router}`,
+        query: query
       })
     },
     doFindagent() {

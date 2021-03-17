@@ -22,10 +22,10 @@
         <el-button size="medium" icon="el-icon-search" type="primary" @click="doFindAccountChangeLog()">查找</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button size="medium" icon="el-icon-refresh" type="info" @click="doRefresh()">刷新</el-button>
+        <el-button size="medium" icon="el-icon-refresh" type="primary" @click="doRefresh()">刷新</el-button>
       </el-form-item>
       <el-form-item>
-        <el-button size="medium" icon="el-icon-refresh" type="primary" @click="doReset()">重置</el-button>
+        <el-button size="medium" icon="el-icon-refresh-right" type="info" @click="doReset()">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -207,10 +207,9 @@ export default {
       this.$pomelo.send(sendStr)
     },
     doRefresh() {
-      this.name = ''
-      this.optioner = ''
-      this.memo = ''
-      // this.doSelectDate(1)
+      // this.name = ''
+      // this.optioner = ''
+      // this.memo = ''
       var r = this.getSelectDate()
       const sendStr = {
         router: 'GetAccountChangeLog',

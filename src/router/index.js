@@ -96,17 +96,18 @@ export const constantRoutes = [
   },
   {
     path: '/profile',
-    component: Layout,
-    redirect: '/profile/index',
+    component: () => import('@/views/profile/index'),
+    // component: Layout,
+    // redirect: '/profile/index',
     hidden: true,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/profile/index'),
-        // name: 'Profile',
-        meta: { title: 'profile', icon: 'user', noCache: true }
-      }
-    ]
+    // children: [
+    //   {
+    //     path: 'index',
+    //     component: () => import('@/views/profile/index'),
+    //     // name: 'Profile',
+    //     meta: { title: 'profile', icon: 'user', noCache: true }
+    //   }
+    // ]
   }
 ]
 
@@ -140,19 +141,6 @@ export const asyncRoutes = [
   //       component: () => import('@/views/error-page/404'),
   //       name: 'Page404',
   //       meta: { title: 'page404', noCache: true }
-  //     }
-  //   ]
-  // },
-
-  // {
-  //   path: '/about-me',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'profile',
-  //       component: () => import('@/views/profile/index'),
-  //       name: 'Profile',
-  //       meta: { title: 'profile', icon: 'user', noCache: true }
   //     }
   //   ]
   // },
@@ -209,7 +197,7 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/about-me',
+    path: '/about',
     component: Layout,
     redirect: 'noRedirect',
     name: 'Profile',

@@ -48,6 +48,9 @@
         <el-button size="small" type="warning" @click="doSelectDate(5)">本月</el-button>
         <el-button size="small" type="warning" @click="doSelectDate(6)">上月</el-button>
         <el-button size="small" icon="el-icon-document" style="margin-bottom: 10px" @click="excelExport()">导出</el-button>
+        <el-checkbox v-model="showTable.optionIp" class="filter-item" style="margin-left:15px; color: #FF5722" @change="tableKey=tableKey+1">
+          操作IP
+        </el-checkbox>
         <el-pagination
           :current-page="1"
           :page-size="pageSize"
@@ -95,7 +98,7 @@
           </template>
         </el-table-column>
         <el-table-column property="money" label="总金额" align="center" />
-        <el-table-column property="optionIp" label="操作IP" align="center" width="140px" />
+        <el-table-column v-if="showTable.optionIp" property="optionIp" label="操作IP" align="center" width="140px" />
         <el-table-column property="optioners" label="操作员" align="center" />
         <el-table-column property="optionTime" label="操作时间" align="center" width="185px" />
         <el-table-column property="memo" label="备注" align="center" width="600px" />
@@ -144,47 +147,16 @@ export default {
       pageSize: 10,
       loading: false,
       options: [
-        {
-          value: '1',
-          label: '全部'
-        },
-        {
-          value: '2',
-          label: '存入下线'
-        },
-        {
-          value: '3',
-          label: '取出下线'
-        },
-        {
-          value: '4',
-          label: '线上充值'
-        },
-        {
-          value: '5',
-          label: '线上取款'
-        }
+        { value: '1', label: '全部' },
+        { value: '2', label: '存入下线' },
+        { value: '3', label: '取出下线' },
+        { value: '4', label: '线上充值' },
+        { value: '5', label: '线上取款' }
       ],
-      accountRecordFrm: {
-        totalItemsNum: 1,
-        tradeMoney: 0,
-        totalMoney: 0,
-        tableData: [
-          {
-            id: '11', // 记录ID
-            name: '11112222', // 账号
-            nikename: '0.00', // 用户名称
-            level: '0.00', // 级别
-            type: '', // 类型
-            tradeMoney: 0, // 交易金额
-            money: '', // 总金额
-            optionIp: '127.0.0.1', // 操作IP
-            optioners: '', // 操作员
-            optionTime: '', // 操作时间
-            memo: '' // 备注
-          }
-        ]
+      showTable: {
+        optionIp: false
       },
+      tableKey: 0,
       form: {
         account: '',
         nickname: ''
@@ -200,12 +172,6 @@ export default {
   computed: {
     ...mapState({ accountRecord: state => state.ht.accountRecordForm })
   },
-  // watch: {
-  //   stateDemo() {
-  //     //暂时用监听方式,切忌滥用
-  //     // console.log('vuex变化啦')
-  //   }
-  // },
   created() {
     this.doSelectDate(1)
     this.getParams()
@@ -239,10 +205,9 @@ export default {
     },
     doRefreshAccountLog() {
       this.loading = true
-      this.memo = ''
-      this.name = ''
-      this.optioner = ''
-      // this.doSelectDate(1)
+      // this.memo = ''
+      // this.name = ''
+      // this.optioner = ''
       var r = this.getSelectDate()
       const sendStr = {
         router: 'GetAccountLog',

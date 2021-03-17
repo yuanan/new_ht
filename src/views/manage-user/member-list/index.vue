@@ -234,37 +234,37 @@ export default {
     }
   },
   created() {
-    // var routerParams = this.$route.query
-    // if (routerParams.name !== undefined) {
-    //   this.getRelations()
-    //   const sendStr = {
-    //     router: 'GetMemberInfo',
-    //     JsonData: {
-    //       name: routerParams.name,
-    //       pageSize: this.pageSize,
-    //       currentPage: 1
-    //     }
-    //   }
-    //   this.$pomelo.send(sendStr)
-    //   setTimeout(() => {
-    //     this.testSearch(routerParams.name)
-    //   }, 1500)
-    //   // this.getMemberRelations(routerParams.name)
-    // } else {
-    this.getRelations()
-    const sendStr = {
-      router: 'GetMemberInfo',
-      JsonData: {
-        name: this.$Global.optioner.UserName,
-        pageSize: this.pageSize,
-        currentPage: 1
+    var routerParams = this.$route.query
+    if (routerParams.name !== undefined) {
+      this.getRelations()
+      const sendStr = {
+        router: 'GetMemberInfo',
+        JsonData: {
+          name: routerParams.name,
+          pageSize: this.pageSize,
+          currentPage: 1
+        }
       }
+      this.$pomelo.send(sendStr)
+      setTimeout(() => {
+        this.testSearch(routerParams.name)
+      }, 1500)
+      // this.getMemberRelations(routerParams.name)
+    } else {
+      this.getRelations()
+      const sendStr = {
+        router: 'GetMemberInfo',
+        JsonData: {
+          name: this.$Global.optioner.UserName,
+          pageSize: this.pageSize,
+          currentPage: 1
+        }
+      }
+      this.$pomelo.send(sendStr)
+      this.getRelations()
+      // this.getData()
+      this.$store.commit('ht/setRelations', [this.$Global.optioner.UserName])
     }
-    this.$pomelo.send(sendStr)
-    this.getRelations()
-    // this.getData()
-    this.$store.commit('ht/setRelations', [this.$Global.optioner.UserName])
-    // }
     this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
   },
   methods: {
@@ -405,25 +405,25 @@ export default {
       this.$pomelo.send(sendStr)
       setTimeout(() => {
         this.getData()
-      }, 1000)
+      }, 800)
     },
     getData() {
       // console.log('get Data ... ', this.wsData)
-      if (!this.wsData.tableData || this.wsData.tableData.length <= 1) return
+      // if (!this.wsData.tableData || this.wsData.tableData.length <= 1) return
       var content = this.wsData.tableData
       for (var i = 0; i < content.length; i++) {
-        var d = content[i].gx.split('^')
+        var d = content[i].gx.split("^")
         var dd = d[d.length - 2]
         content[i].pid = dd // 上家的id
         content[i].children = []
       }
-      // console.log('expandedData:',this.expandedData)
-      const dataArray = []
+      // console.log("expandedData:",this.expandedData)
+      let dataArray = []
       var self = this
-      content.forEach(function(data) {
-        const pid = data.pid
-        if (data.Id === self.$Global.optioner.Id) {
-          const objTemp = {
+      content.forEach(function (data) {
+        let pid = data.pid
+        if (data.Id == self.$Global.optioner.Id) {
+          let objTemp = {
             Id: data.Id,
             name: data.name,
             gx: data.gx,
@@ -438,15 +438,15 @@ export default {
     },
     deepSort(datas, dataArray) {
       for (let j = 0; j < dataArray.length; j++) {
-        const dataArrayIndex = dataArray[j]
-        const childrenArray = []
-        const Id = dataArrayIndex.Id
+        let dataArrayIndex = dataArray[j]
+        let childrenArray = []
+        let Id = dataArrayIndex.Id
         for (let i = 0; i < datas.length; i++) {
-          const data = datas[i]
-          const pid = data.pid
-          if (pid === Id) {
+          let data = datas[i]
+          let pid = data.pid
+          if (pid == Id) {
             // 判断是否为儿子节点
-            const objTemp = {
+            let objTemp = {
               Id: data.Id,
               name: data.name,
               gx: data.gx,

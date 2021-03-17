@@ -131,8 +131,14 @@ export default {
     ...mapState({ loginRecord: state => state.ht.loginRecordForm })
   },
   created() {
-    this.doSelectDate(1)
-    this.getLoginLog()
+    var routerParams = this.$route.query
+    if (routerParams.name !== undefined) {
+      this.name = routerParams.name
+      this.doFindLoginLog()
+    } else {
+      this.doSelectDate(1)
+      this.getLoginLog()
+    }
   },
   methods: {
     // 限制输入特殊字符
@@ -145,6 +151,8 @@ export default {
         router: 'GetLoginLog',
         JsonData: {
           opt_name: this.$Global.optioner.UserName, // 后面加上的
+          name: this.name,
+          memo: this.meno,
           Id: this.$Global.optioner.Id,
           pageSize: this.pageSize,
           currentPage: 1,
@@ -176,10 +184,8 @@ export default {
       this.$pomelo.send(sendStr)
     },
     doRefreshLoginLog() {
-      this.name = ''
-      this.loginIp = ''
-      // this.pageSize = 10
-      // this.doSelectDate(1)
+      // this.name = ''
+      // this.loginIp = ''
       var r = this.getSelectDate()
       const sendStr = {
         router: 'GetLoginLog',

@@ -28,7 +28,10 @@
           </span>
           <el-dropdown-menu slot="dropdown">
           <el-dropdown-item> -->
-          <el-checkbox v-model="showTable.createDate" class="filter-item" style="margin-left:15px; color: #FF5722" @change="tableKey=tableKey+1">
+          <el-checkbox v-model="showTable.Id" class="filter-item" style="margin-left:15px; color: #FF5722" @change="tableKey=tableKey+1">
+            ID
+          </el-checkbox>
+          <el-checkbox v-model="showTable.createDate" class="filter-item" style="color: #FF5722" @change="tableKey=tableKey+1">
             开户时间
           </el-checkbox>
           <!-- </el-dropdown-item>  -->
@@ -58,7 +61,7 @@
             border
             :row-class-name="tableRowClassName"
           >
-            <el-table-column property="Id" fixed label="ID" />
+            <el-table-column v-if="showTable.Id" property="Id" fixed label="ID" />
             <el-table-column property="agentAccount" fixed label="代理帐号" width="120">
               <template slot-scope="scope">
                 <span @click="cellClick(scope.row.agentAccount, scope.row.Id)">
@@ -82,7 +85,7 @@
             </el-table-column>
             <el-table-column property="zcb" label="占成比(%)" width="90px" />
             <el-table-column property="xmb" label="洗码比(单/双)%" width="80px" />
-            <el-table-column property="xmType" label="洗码类型" width="100" />
+            <el-table-column property="xmType" label="洗码类型" width="80" />
             <el-table-column prop="sEnable" label="状态" width="80px" align="center">
               <template slot-scope="scope">
                 <el-switch
@@ -98,13 +101,34 @@
             <el-table-column v-if="showTable.createDate" property="createDate" label="开户时间" min-width="110px" />
             <el-table-column v-if="showTable.LastLogin" property="lastLoginTime" label="最近登录" min-width="110px" />
             <el-table-column v-if="showTable.LastLoginIP" property="loginIp" label="登录IP" />
-            <el-table-column label="操作" width="400px">
+            <el-table-column label="操作" width="370px">
               <template slot-scope="scope">
                 <el-button v-if="arrJxb[7] === '1'" type="success" class="el-button-opt" @click="handleOptScore(scope.$index, scope.row, 1)">上/下分</el-button>
                 <el-button v-if="arrJxb[3] === '1'" icon="el-icon-edit" type="primary" class="el-button-opt" @click="handleAgentSetup(scope.$index, scope.row)">设定</el-button>
                 <el-button v-if="arrJxb[13] === '1'" type="warning" class="el-button-opt" @click="handleLimitSetup(scope.$index, scope.row)">权限</el-button>
-                <el-button v-if="arrJxb[6] === '1'" icon="el-icon-plus" type="danger" class="el-button-opt2" @click="handleAddMember(scope.$index, scope.row, 1)">添加代理/玩家</el-button>
-                <!-- <el-button v-if="arrJxb[6] === '1'" type="success" class="el-button-opt" @click="handleAddMember(scope.$index, scope.row, 2)">添加会员</el-button> -->
+                <el-button v-if="arrJxb[6] === '1'" icon="el-icon-plus" type="danger" class="el-button-opt2" @click="handleAddMember(scope.$index, scope.row, 1)">代理/玩家</el-button>
+                <el-dropdown style="margin-left: 10px;">
+                  <span class="el-dropdown-link">
+                    更多<i class="el-icon-arrow-down el-icon--right"></i>
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>
+                      <div @click="handleMoreAction(1, scope.row)">登录记录</div>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                      <div @click="handleMoreAction(2, scope.row)">上下分记录</div>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                      <div @click="handleMoreAction(3, scope.row)">操作上下分记录</div>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                      <div @click="handleMoreAction(4, scope.row)">账号变更记录</div>
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                      <div @click="handleMoreAction(5, scope.row)">操作账号变更记录</div>
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
               </template>
             </el-table-column>
           </el-table>
@@ -209,6 +233,7 @@ export default {
       curPage: 1,
       tableKey: 0,
       showTable: {
+        Id: false,
         createDate: false,
         LastLogin: false,
         LastLoginIP: false
@@ -360,6 +385,31 @@ export default {
       this.$pomelo.send(sendStr)
       this.amData = row
       this.$refs.addam.dialogFormVisible = true
+    },
+    handleMoreAction(action, row) {
+      switch (action) {
+        case 1:
+          this.goPage('/recordsPage/login-records', { name: row.agentAccount })
+          break
+        case 2:
+          this.goPage('/recordsPage/access-records', { name: row.agentAccount })
+          break
+        case 3:
+          this.goPage('/recordsPage/access-records', { opt_name: row.agentAccount })
+          break
+        case 4:
+          this.goPage('/recordsPage/account-change-records', { name: row.agentAccount })
+          break
+        case 5:
+          this.goPage('/recordsPage/account-change-records', { opt_name: row.agentAccount })
+          break
+      }
+    },
+    goPage(router, query) {
+      this.$router.push({
+        path: `${router}`,
+        query: query
+      })
     },
     changeSwitch(data) {
       if (this.$Global.optioner.arrJxb[4] === '0') return this.$message.warning('您没有该权限！请联系上级')
@@ -647,13 +697,13 @@ export default {
   margin: 20px;
 }
 .el-button-opt {
-  width: 80px;
+  width: 60px;
   height: 25px;
   padding: 1px;
   margin: 1px;
 }
 .el-button-opt2 {
-  width: 130px;
+  width: 100px;
   height: 25px;
   padding: 1px;
   margin: 1px;

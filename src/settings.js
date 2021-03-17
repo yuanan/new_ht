@@ -45,6 +45,6 @@ module.exports = {
   imgPort: '8013',
   pomelo_http_port: '3198',
   pomelo_ws_port: '8014',
-  go_chat_url: 'http://hn2210.com/lt/',
-  mb: 'http://hn2210.com/m/'
+  go_chat_url: 'http://proxy.hn885.com/lt/',
+  mb: 'http://proxy.hn885.com/m/'
 }

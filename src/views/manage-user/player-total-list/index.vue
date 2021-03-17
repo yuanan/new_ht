@@ -210,26 +210,19 @@ export default {
       e.target.value = e.target.value.replace(/[`~!#$%^&*()\-+=<>?:'{}|,.\/;'\\[\]·~！#￥%……&*（）\-+={}|《》？：“”【】、；‘’，。、]/g, '')
     },
     findAccountLog(index, row) {
-      this.$router.push({
-        path: '/recordsPage/access-records',
-        query: {
-          name: row.memberAccount
-        }
-      })
+      this.goPage('/recordsPage/access-records', row.memberAccount)
     },
     findOptLog(index, row) {
-      this.$router.push({
-        path: '/recordsPage/account-change-records',
-        query: {
-          name: row.memberAccount
-        }
-      })
+      this.goPage('/recordsPage/account-change-records', row.memberAccount)
     },
     findGameLog(index, row) {
+      this.goPage('/bet-records/bet-records', row.memberAccount)
+    },
+    goPage(router, name) {
       this.$router.push({
-        path: '/bet-records/bet-records',
+        path: `${router}`,
         query: {
-          name: row.memberAccount
+          name: name
         }
       })
     },
