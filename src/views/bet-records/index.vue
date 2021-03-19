@@ -10,10 +10,10 @@
         <el-time-picker v-model="endTime" arrow-control style="width:120px" />
       </el-form-item>
       <el-form-item prop="ID">
-        <el-input v-model="form.Id" placeholder="会员ID" style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFind()" />
+        <el-input v-model="form.Id" placeholder="会员ID" clearable style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFind()" />
       </el-form-item>
       <el-form-item prop="account">
-        <el-input v-model="form.account" placeholder="账号" style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFind()" />
+        <el-input v-model="form.account" placeholder="账号" clearable style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFind()" />
       </el-form-item>
       <el-form-item>
         <el-select v-model="gameTypeValue" style="width:155px"> <!-- :change="doFind()"-->
@@ -21,13 +21,13 @@
         </el-select>
       </el-form-item>
       <el-form-item prop="cc">
-        <el-input v-model="form.cc" placeholder="靴号" style="width:150px" @keydown.enter.native="doFind()" />
+        <el-input v-model="form.cc" placeholder="靴号" clearable style="width:150px" @keydown.enter.native="doFind()" />
       </el-form-item>
       <el-form-item prop="teskNum">
-        <el-input v-model="form.teskNum" placeholder="台号" style="width:150px" @keydown.enter.native="doFind()" />
+        <el-input v-model="form.teskNum" placeholder="台号" clearable style="width:150px" @keydown.enter.native="doFind()" />
       </el-form-item>
       <el-form-item prop="jc">
-        <el-input v-model="form.jc" placeholder="场次" style="width:150px" @keydonw.enter.native="doFind()" />
+        <el-input v-model="form.jc" placeholder="场次" clearable style="width:150px" @keydonw.enter.native="doFind()" />
       </el-form-item>
       <el-form-item>
         <el-button size="medium" icon="el-icon-search" type="primary" @click="doFind()">查找</el-button>
@@ -150,8 +150,8 @@
         border
         :row-class-name="tableRowClassName"
       >
-        <el-table-column v-if="showTable.memberId" property="memberId" fixed label="会员ID" width="70px" />
-        <el-table-column property="memberAccount" fixed label="帐号" width="90px">
+        <el-table-column v-if="showTable.memberId" property="memberId" fixed label="会员ID" width="70" />
+        <el-table-column property="memberAccount" fixed label="帐号" width="90">
           <template slot-scope="scope">
             <span v-show="scope.row.win < 0">
               <font color="red">{{ scope.row.memberAccount }}</font>
@@ -159,11 +159,20 @@
             <span v-show="scope.row.win>=0">{{ scope.row.memberAccount }}</span>
           </template>
         </el-table-column>
-        <el-table-column property="game" label="游戏" align="left" width="70px" />
+        <el-table-column property="game" label="游戏" align="left" width="70">
+          <template slot-scope="{row}">
+            <font v-if="row.game === '百家乐'" color="#2962FF">{{ row.game }}</font>
+            <font v-if="row.game === '龙虎'" color="#00C853">{{ row.game }}</font>
+            <font v-if="row.game === '牛牛'" color="#FF5722">{{ row.game }}</font>
+            <font v-if="row.game === '炸金花'" color="#CDDC39">{{ row.game }}</font>
+            <font v-if="row.game === '大小'" color="#212121">{{ row.game }}</font>
+            <font v-if="row.game === '推筒子'" color="#795548">{{ row.game }}</font>
+          </template>
+        </el-table-column>
         <el-table-column property="teskNum" label="台号" align="left" />
-        <el-table-column property="cc" label="场次" align="left" width="90px" />
-        <el-table-column property="sTime" label="时间" align="left" width="100px" />
-        <el-table-column property="result" label="结果" align="center" width="100px">
+        <el-table-column property="cc" label="场次" align="left" width="90" />
+        <el-table-column property="sTime" label="时间" align="left" width="100" />
+        <el-table-column property="result" label="结果" align="center" width="100">
           <template slot-scope="scope">
             <div v-if="scope.row.rType === 'nn'">
               <div v-if="scope.row.niuniuResult">
@@ -177,7 +186,7 @@
             <div v-else>{{ scope.row.result }}</div>
           </template>
         </el-table-column>
-        <el-table-column property="betOrderInfo" label="注单详情" align="center" width="248px">
+        <el-table-column property="betOrderInfo" label="注单详情" align="center" width="248">
           <template slot-scope="scope">
             <el-table
               v-show=" scope.row.rType!='dx' && scope.row.rType != 'ssc' && scope.row.rType != 'jsk3' && scope.row.rType != 'bjcs' && scope.row.memberId != '统计:' && scope.row.memberId != '所有统计:'&& scope.row.rType != 'nn' "
@@ -248,12 +257,17 @@
           </template>
         </el-table-column>
         <el-table-column property="xml" label="洗码量(单/双)" align="left" />
-        <el-table-column property="xmKind" label="洗码类型" align="left" />
+        <el-table-column property="xmKind" label="洗码类型" align="left" width="80">
+          <template slot-scope="{row}">
+            <font v-if="row.xmKind === '双边'" color="#1E88E5">{{ row.xmKind }}</font>
+            <font v-else color="#FB8C00">{{ row.xmKind }}</font>
+          </template>
+        </el-table-column>
         <el-table-column property="validBet" label="有效投注" align="left" />
         <el-table-column property="balance" label="余额" align="left" />
-        <el-table-column v-if="showTable.balanceMemo" property="balanceMemo" label="余额备注" align="left" width="180px" />
+        <el-table-column v-if="showTable.balanceMemo" property="balanceMemo" label="余额备注" align="left" width="180" />
         <el-table-column v-if="showTable.ip" property="ip" label="投注IP" align="left" />
-        <el-table-column property="terminal" label="终端" align="left" width="80px" />
+        <el-table-column property="terminal" label="终端" align="left" width="75" />
       </el-table>
 
       <el-pagination
@@ -314,7 +328,7 @@ export default {
       ],
       tableKey: 0,
       showTable: {
-        memberId: false,
+        memberId: true,
         balanceMemo: false,
         ip: false
       },

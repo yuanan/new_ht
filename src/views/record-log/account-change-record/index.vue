@@ -10,13 +10,13 @@
         <el-time-picker v-model="endTime" arrow-control placeholder="选择时间点" style="width:120px" />
       </el-form-item>
       <el-form-item>
-        <el-input v-model="name" placeholder="用户账号" class="inputBox" style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindAccountChangeLog()" />
+        <el-input v-model="name" placeholder="用户账号" clearable style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindAccountChangeLog()" />
       </el-form-item>
       <el-form-item>
-        <el-input v-model="optioner" placeholder="操作员账号" class="inputBox" style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindAccountChangeLog()" />
+        <el-input v-model="optioner" placeholder="操作员账号" clearable style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindAccountChangeLog()" />
       </el-form-item>
       <el-form-item>
-        <el-input v-model="memo" placeholder="备注" class="inputBox" style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindAccountChangeLog()" />
+        <el-input v-model="memo" placeholder="备注" clearable style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindAccountChangeLog()" />
       </el-form-item>
       <el-form-item>
         <el-button size="medium" icon="el-icon-search" type="primary" @click="doFindAccountChangeLog()">查找</el-button>
@@ -60,7 +60,8 @@
         <el-table-column property="nikename" label="用户名称" align="center" width="140" />
         <el-table-column property="level" label="级别" align="center" width="100">
           <template slot-scope="{row}">
-            <span>{{ (row.level === 2 || row.level === 1) ? '代理' : '会员' }}</span>
+            <font v-if="row.level === 2 || row.level === 1" color="#00B0FF">{{ '代理' }}</font>
+            <font v-else color="#00BFA5">{{ '会员' }}</font>
           </template>
         </el-table-column>
         <el-table-column property="optionIp" label="操作IP" align="center" width="150px" />

@@ -76,7 +76,7 @@ export default {
         email: 'admin@test.com',
         avatar: this.avatar
       }
-    },
+    }
     // getData() {
     //   const sendStr = {
     //     router: 'GetCenterInfo',

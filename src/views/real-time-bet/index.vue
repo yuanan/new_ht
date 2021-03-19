@@ -4,8 +4,9 @@
       <el-form-item label="用户名">
         <el-input
           v-model="form.account"
-          placeholder="会员用户名,逗号隔开"
+          placeholder="会员账号 “,” 逗号隔开"
           style="width:280px;"
+          clearable
           @keyup.native="btKeyUp"
           @keydown.native="btKeyUp"
         />
@@ -24,17 +25,26 @@
         border
         :row-class-name="tableRowClassName"
       >
-        <el-table-column property="orderId" label="序号" align="center" width="60px" />
-        <el-table-column property="gameType" label="游戏" align="center" width="100px" />
-        <el-table-column property="betTime" label="时间" align="center" width="100px" />
-        <el-table-column property="tableNum" label="台号" align="center" width="70px" />
+        <el-table-column property="orderId" label="序号" align="center" width="60" />
+        <el-table-column property="gameType" label="游戏" align="center" width="100">
+          <template slot-scope="{row}">
+            <font v-if="row.gameType === '百家乐'" color="#2962FF">{{ row.gameType }}</font>
+            <font v-if="row.gameType === '龙虎'" color="#00C853">{{ row.gameType }}</font>
+            <font v-if="row.gameType === '牛牛'" color="#FF5722">{{ row.gameType }}</font>
+            <font v-if="row.gameType === '炸金花'" color="#CDDC39">{{ row.gameType }}</font>
+            <font v-if="row.gameType === '大小'" color="#212121">{{ row.gameType }}</font>
+            <font v-if="row.gameType === '推筒子'" color="#795548">{{ row.gameType }}</font>
+          </template>
+        </el-table-column>
+        <el-table-column property="betTime" label="时间" align="center" width="100" />
+        <el-table-column property="tableNum" label="台号" align="center" width="70" />
         <el-table-column property="cc" label="场次" align="center" />
         <el-table-column property="memberName" label="账号" align="center">
           <template slot-scope="{row}">
             <font color="blue">{{ row.memberName }}</font>
           </template>
         </el-table-column>
-        <el-table-column property="betOrderInfo" label="注单详情" align="center" width="480px">
+        <el-table-column property="betOrderInfo" label="注单详情" align="center" width="480">
           <template slot-scope="scope">
             <el-table
               v-show="scope.row.rType!='dx' && scope.row.rType!='ssc' && scope.row.rType!='jsk3' && scope.row.rType!='bjcs'"
@@ -258,7 +268,7 @@ export default {
     ...mapState({ betOrderInquire: state => state.ht.betOrderInquireForm })
     // stateDemo() {
     //   // console.log('--------->>>Frm:', this.betOrderInquireFrm);
-    //   return (this.betOrderInquireFrm = this.$store.state.betOrderInquireForm);
+    //   return (this.betOrderInquireFrm = this.$store.state.ht.betOrderInquireForm);
     // }
   },
   created() {

@@ -3,10 +3,10 @@
     <!-- <el-card class="search-section c-body"> -->
     <el-form ref="form" inline :model="form" size="medium">
       <el-form-item prop="account">
-        <el-input v-model="form.account" placeholder="代理账号" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindagent()" />
+        <el-input v-model="form.account" placeholder="代理账号" clearable @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindagent()" />
       </el-form-item>
       <el-form-item prop="nikename">
-        <el-input v-model="form.nikename" placeholder="昵称" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindagent()" />
+        <el-input v-model="form.nikename" placeholder="昵称" clearable @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindagent()" />
       </el-form-item>
       <el-form-item>
         <el-button size="medium" type="primary" icon="el-icon-search" @click="doFindagent()">查找</el-button>

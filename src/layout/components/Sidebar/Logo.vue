@@ -59,6 +59,7 @@ export default {
       height: 40px;
       vertical-align: middle;
       margin-right: 10px;
+      user-select: none;
     }
 
     & .sidebar-title {
@@ -71,12 +72,14 @@ export default {
       font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
       vertical-align: middle;
       letter-spacing: 3px;
+      user-select: none;
     }
   }
 
   &.collapse {
     .sidebar-logo {
       margin-right: 0px;
+      user-select: none;
     }
   }
 }

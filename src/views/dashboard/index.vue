@@ -31,9 +31,9 @@ export default {
     $route(to, from) {
       console.log(from.path) // 从哪来
       console.log(to.path) // 到哪去
-      console.log(this.$route.path === '/dashboard' || this.$route.path === '/about-me/profile')
-      // if (to.path === '/dashboard' || to.path === '/about-me/profile') {
-      if (this.$route.path === '/dashboard' || this.$route.path === '/about-me/profile') {
+      console.log(this.$route.path === '/dashboard' || this.$route.path === '/about/profile')
+      // if (to.path === '/dashboard' || to.path === '/about/profile') {
+      if (this.$route.path === '/dashboard' || this.$route.path === '/about/profile') {
         if (this.interval !== null) {
           clearInterval(this.interval)
           this.interval = null

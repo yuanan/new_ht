@@ -1,10 +1,10 @@
 <template>
   <el-row :gutter="40" class="panel-group">
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+    <el-col :xs="24" :sm="12" :lg="6" class="card-panel-col">
       <el-card class="card-panel">
         <div slot="header" class="clearfix">
-          <span style="font-size: 18px; font-weight: bold; line-height: 28px;">代理总数</span>
-          <el-tag type="primary" style="float: right;">代理</el-tag>
+          <span class="title-fix">代理总数</span>
+          <el-tag type="primary" class="tag-fix">代理</el-tag>
         </div>
         <div class="card-panel-icon-wrapper icon-people">
           <svg-icon icon-class="peoples" class-name="card-panel-icon" />
@@ -17,11 +17,11 @@
         </div>
       </el-card>
     </el-col>
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+    <el-col :xs="24" :sm="12" :lg="6" class="card-panel-col">
       <el-card class="card-panel">
         <div slot="header" class="clearfix">
-          <span style="font-size: 18px; font-weight: bold; line-height: 28px;">今日新增代理</span>
-          <el-tag type="primary" style="float: right;">代理</el-tag>
+          <span class="title-fix">今日新增代理</span>
+          <el-tag type="primary" class="tag-fix">代理</el-tag>
         </div>
         <div class="card-panel-icon-wrapper">
           <svg-icon icon-class="agents" class-name="card-panel-icon" />
@@ -34,11 +34,11 @@
         </div>
       </el-card>
     </el-col>
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+    <el-col :xs="24" :sm="12" :lg="6" class="card-panel-col">
       <el-card class="card-panel">
         <div slot="header" class="clearfix">
-          <span style="font-size: 18px; font-weight: bold; line-height: 28px;">玩家总数</span>
-          <el-tag type="success" style="float: right;">玩家</el-tag>
+          <span class="title-fix">玩家总数</span>
+          <el-tag type="success" class="tag-fix">玩家</el-tag>
         </div>
         <div class="card-panel-icon-wrapper icon-players">
           <svg-icon icon-class="money" class-name="card-panel-icon" />
@@ -51,11 +51,11 @@
         </div>
       </el-card>
     </el-col>
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+    <el-col :xs="24" :sm="12" :lg="6" class="card-panel-col">
       <el-card class="card-panel">
         <div slot="header" class="clearfix">
-          <span style="font-size: 18px; font-weight: bold; line-height: 28px;">今日新增玩家</span>
-          <el-tag type="success" style="float: right;">玩家</el-tag>
+          <span class="title-fix">今日新增玩家</span>
+          <el-tag type="success" class="tag-fix">玩家</el-tag>
         </div>
         <div class="card-panel-icon-wrapper">
           <svg-icon icon-class="players" class-name="card-panel-icon" />
@@ -136,6 +136,10 @@ export default {
     .icon-people {
       color: #36a3f7;
     }
+
+    .tag-fix {
+      float: right;
+    }
     // .icon-message {
     //   color: #36a3f7;
     // }
@@ -149,7 +153,7 @@ export default {
     .card-panel-icon-wrapper {
       float: left;
       margin: 14px 0 0 14px;
-      padding: 16px;
+      // padding: 16px;
       transition: all 0.38s ease-out;
       border-radius: 6px;
     }
@@ -162,39 +166,50 @@ export default {
     .card-panel-description {
       float: right;
       font-weight: bold;
-      margin: 26px;
-      margin-left: 0px;
+      margin: 26px 0;
+      // margin-left: 0px;
 
       .card-panel-text {
         line-height: 18px;
         color: rgba(0, 0, 0, 0.45);
         font-size: 16px;
         margin-bottom: 12px;
+        user-select: none;
       }
 
       .card-panel-num {
         font-size: 20px;
+        user-select: none;
       }
     }
   }
 }
 
 @media (max-width:550px) {
-  .card-panel-description {
-    display: none;
+  // .card-panel-icon {
+  //   display: none;
+  // }
+  // .tag-fix {
+  //   display: none;
+  // }
+  .card-panel {
+    min-width: 230px;
   }
+  // .card-panel-description {
+  //   display: none;
+  // }
 
-  .card-panel-icon-wrapper {
-    float: none !important;
-    width: 100%;
-    height: 100%;
-    margin: 0 !important;
+  // .card-panel-icon-wrapper {
+  //   float: none !important;
+  //   width: 100%;
+  //   height: 100%;
+  //   margin: 0 !important;
 
-    .svg-icon {
-      display: block;
-      margin: 14px auto !important;
-      float: none !important;
-    }
-  }
+  //   .svg-icon {
+  //     display: block;
+  //     margin: 14px auto !important;
+  //     float: none !important;
+  //   }
+  // }
 }
 </style>

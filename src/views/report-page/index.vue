@@ -10,10 +10,10 @@
         <el-time-picker v-model="endTime" arrow-control placeholder="选择时间点" style="width:120px" />
       </el-form-item>
       <el-form-item>
-        <el-input v-model="form.name" placeholder="请输入用户帐号" class="inputBox" style="width:155px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" />
+        <el-input v-model="form.name" placeholder="请输入用户帐号" clearable style="width:155px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" />
       </el-form-item>
       <el-form-item>
-        <el-input v-model="form.Id" placeholder="请输入用户ID" class="inputBox" style="width:155px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" />
+        <el-input v-model="form.Id" placeholder="请输入用户ID" clearable style="width:155px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" />
       </el-form-item>
       <el-form-item>
         <el-button size="medium" icon="el-icon-search" type="primary" @click="doFind()">查找</el-button>
@@ -32,15 +32,23 @@
       <el-button size="small" type="warning" @click="doSelectDate(4)">上周</el-button>
       <el-button size="small" type="warning" @click="doSelectDate(5)">本月</el-button>
       <el-button size="small" type="warning" style="margin-bottom: 10px" @click="doSelectDate(6)">上月</el-button>
-      <!-- <font size="2" color="red">--负数为会员应上交</font> -->
     </el-form>
     <el-row style="background: #f5f5f5; padding: 0 5px">
-      <font size="3" color="#000">代理选择 | </font>
+      <font size="3" color="#000" style="user-select: none">代理选择 | </font>
       <el-button v-for="item in reportRecord.agents" :key="item" :value="item" type="text" class="id-list" plain size="medium" style="color: #0D47A1; font-size:18px;" @click="doClickAgent(item)">{{ item }} ></el-button>
     </el-row>
-    <h5 style="margin: 10px">
+    <h5 style="margin: 10px; user-select: none">
       个人收益表：
       <el-button size="small" icon="el-icon-document" @click="excelExport(1)">导出</el-button>
+      <el-checkbox v-model="showTable.sscWin1" class="filter-item" style="margin-left:15px; color: #FF5722" @change="tableKey=tableKey+1">
+        时时彩
+      </el-checkbox>
+      <el-checkbox v-model="showTable.jsk3Win1" class="filter-item" style="color: #FF5722" @change="tableKey=tableKey+1">
+        江苏快3
+      </el-checkbox>
+      <el-checkbox v-model="showTable.bjcsWin1" class="filter-item" style="margin-left: -5px; color: #FF5722" @change="tableKey=tableKey+1">
+        北京赛车
+      </el-checkbox>
     </h5>
     <el-table
       id="report1"
@@ -52,10 +60,14 @@
       :row-class-name="tableRowClassName"
     >
       <el-table-column property="name" fixed label="帐户" align="center" />
-      <el-table-column property="level" fixed label="级别" align="center" width="70px" />
+      <el-table-column property="level" fixed label="级别" align="center" width="70">
+        <template slot-scope="{row}">
+          <font color="#00B0FF">{{ row.level }}</font>
+        </template>
+      </el-table-column>
       <el-table-column property="nikename" fixed label="名称" align="center" />
       <el-table-column property="betNum" label="投注次数" align="center" />
-      <el-table-column property="totalWin" label="总输赢金额" align="center" width="90px">
+      <el-table-column property="totalWin" label="总输赢金额" align="center" width="90">
         <template slot-scope="scope">
           <span v-show="scope.row.totalWin<0">
             <font color="red">{{ scope.row.totalWin }}</font>
@@ -63,7 +75,7 @@
           <span v-show="scope.row.totalWin>=0">{{ scope.row.totalWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="bjlWin" label="百家乐输赢" align="center" width="90px">
+      <el-table-column property="bjlWin" label="百家乐输赢" align="center" width="90">
         <template slot-scope="scope">
           <span v-show="scope.row.bjlWin<0">
             <font color="red">{{ scope.row.bjlWin }}</font>
@@ -87,7 +99,7 @@
           <span v-show="scope.row.nnWin>=0">{{ scope.row.nnWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="dxWin" label="大小点" align="center" width="60px">
+      <el-table-column property="dxWin" label="大小点" align="center" width="60">
         <template slot-scope="scope">
           <span v-show="scope.row.dxWin<0">
             <font color="red">{{ scope.row.dxWin }}</font>
@@ -95,7 +107,7 @@
           <span v-show="scope.row.dxWin>=0">{{ scope.row.dxWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="ttsWin" label="推筒子" align="center" width="60px">
+      <el-table-column property="ttsWin" label="推筒子" align="center" width="60">
         <template slot-scope="scope">
           <span v-show="scope.row.ttsWin < 0">
             <font color="red">{{ scope.row.ttsWin }}</font>
@@ -103,7 +115,7 @@
           <span v-show="scope.row.ttsWin >= 0">{{ scope.row.ttsWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="xjhWin" label="炸金花" align="center" width="60px">
+      <el-table-column property="xjhWin" label="炸金花" align="center" width="60">
         <template slot-scope="scope">
           <span v-show="scope.row.xjhWin < 0">
             <font color="red">{{ scope.row.xjhWin }}</font>
@@ -111,7 +123,7 @@
           <span v-show="scope.row.xjhWin>=0">{{ scope.row.xjhWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="sscWin" label="时时彩" align="center" width="60px">
+      <el-table-column v-if="showTable.sscWin1" property="sscWin" label="时时彩" align="center" width="60">
         <template slot-scope="scope">
           <span v-show="scope.row.sscWin < 0">
             <font color="red">{{ scope.row.sscWin }}</font>
@@ -119,7 +131,7 @@
           <span v-show="scope.row.sscWin >= 0">{{ scope.row.sscWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="jsk3Win" label="江苏快3" align="center">
+      <el-table-column v-if="showTable.jsk3Win1" property="jsk3Win" label="江苏快3" align="center">
         <template slot-scope="scope">
           <span v-show="scope.row.jsk3Win < 0">
             <font color="red">{{ scope.row.jsk3Win }}</font>
@@ -127,7 +139,7 @@
           <span v-show="scope.row.jsk3Win>=0">{{ scope.row.jsk3Win }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="bjcsWin" label="北京赛车" align="center">
+      <el-table-column v-if="showTable.bjcsWin1" property="bjcsWin" label="北京赛车" align="center">
         <template slot-scope="scope">
           <span v-show="scope.row.bjcsWin < 0">
             <font color="red">{{ scope.row.bjcsWin }}</font>
@@ -136,8 +148,8 @@
         </template>
       </el-table-column>
       <el-table-column property="zc" label="占成(%)" align="center" />
-      <el-table-column property="xml" label="洗码量(单/双)" align="center" width="120px" />
-      <el-table-column property="xmb" label="洗码比(单/双)%" align="center" width="120px" />
+      <el-table-column property="xml" label="洗码量(单/双)" align="center" width="120" />
+      <el-table-column property="xmb" label="洗码比(单/双)%" align="center" width="120" />
       <el-table-column property="xmyj" label="洗码佣金" align="center" />
       <el-table-column property="totalMoney" label="总金额" align="center">
         <template slot-scope="scope">
@@ -155,13 +167,13 @@
           <span v-show="scope.row.thisLevelMoney>=0">{{ scope.row.thisLevelMoney }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="companyMoney" label="交公司金额" align="center" width="90px">
+      <el-table-column property="companyMoney" label="交公司金额" align="center" width="90">
         <template slot-scope="scope">
           <span v-if="scope.row.companyMoney<0" style="color:red">{{ scope.row.companyMoney }}</span>
           <span v-else>{{ scope.row.companyMoney }}</span>
         </template>
       </el-table-column>
-      <el-table-column v-show="arrJxb[14]==='1'" label="备注" align="center" width="90px">
+      <el-table-column v-show="arrJxb[14]==='1'" label="备注" align="center" width="90">
         <template slot-scope="scope">
           <el-button
             v-show="arrJxb[14]==='1'"
@@ -174,9 +186,18 @@
       </el-table-column>
     </el-table>
     <br>
-    <h5 style="margin: 10px">
+    <h5 style="margin: 10px; user-select: none">
       直属代理表：
       <el-button size="small" icon="el-icon-document" @click="excelExport(2)">导出</el-button>
+      <el-checkbox v-model="showTable.sscWin2" class="filter-item" style="margin-left:15px; color: #FF5722" @change="tableKey=tableKey+1">
+        时时彩
+      </el-checkbox>
+      <el-checkbox v-model="showTable.jsk3Win2" class="filter-item" style="color: #FF5722" @change="tableKey=tableKey+1">
+        江苏快3
+      </el-checkbox>
+      <el-checkbox v-model="showTable.bjcsWin2" class="filter-item" style="margin-left: -5px; color: #FF5722" @change="tableKey=tableKey+1">
+        北京赛车
+      </el-checkbox>
       <el-pagination
         :current-page="1"
         :page-size="pageSize"
@@ -210,16 +231,20 @@
           <span v-if="scope.row.name==='所有统计'">{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="level" fixed label="级别" align="center" width="60px" />
+      <el-table-column property="level" fixed label="级别" align="center" width="60">
+        <template slot-scope="{row}">
+          <font color="#00B0FF">{{ row.level }}</font>
+        </template>
+      </el-table-column>
       <el-table-column property="nikename" fixed label="名称" align="center" />
       <el-table-column property="betNum" label="投注次数" align="center" />
-      <el-table-column property="totalWin" label="总输赢金额" align="center" width="90px">
+      <el-table-column property="totalWin" label="总输赢金额" align="center" width="90">
         <template slot-scope="scope">
           <span v-if="scope.row.totalWin < 0" style="color:red">{{ scope.row.totalWin }}</span>
           <span v-else>{{ scope.row.totalWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="bjlWin" label="百家乐输赢" align="center" width="90px">
+      <el-table-column property="bjlWin" label="百家乐输赢" align="center" width="90">
         <template slot-scope="scope">
           <span v-if="scope.row.bjlWin < 0" style="color:red">{{ scope.row.bjlWin }}</span>
           <span v-else>{{ scope.row.bjlWin }}</span>
@@ -237,45 +262,45 @@
           <span v-else>{{ scope.row.nnWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="dxWin" label="大小点" align="center" width="70px">
+      <el-table-column property="dxWin" label="大小点" align="center" width="70">
         <template slot-scope="scope">
           <span v-if="scope.row.dxWin < 0" style="color:red">{{ scope.row.dxWin }}</span>
           <span v-else>{{ scope.row.dxWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="ttsWin" label="推筒子" align="center" width="70px">
+      <el-table-column property="ttsWin" label="推筒子" align="center" width="70">
         <template slot-scope="scope">
           <span v-if="scope.row.ttsWin < 0" style="color:red">{{ scope.row.ttsWin }}</span>
           <span v-else>{{ scope.row.ttsWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="xjhWin" label="炸金花" align="center" width="70px">
+      <el-table-column property="xjhWin" label="炸金花" align="center" width="70">
         <template slot-scope="scope">
           <span v-if="scope.row.xjhWin < 0" style="color:red">{{ scope.row.xjhWin }}</span>
           <span v-else>{{ scope.row.xjhWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="sscWin" label="时时彩" align="center" width="70px">
+      <el-table-column v-if="showTable.sscWin2" property="sscWin" label="时时彩" align="center" width="70">
         <template slot-scope="scope">
           <span v-if="scope.row.sscWin < 0" style="color:red">{{ scope.row.sscWin }}</span>
           <span v-else>{{ scope.row.sscWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="jsk3Win" label="江苏快3" align="center">
+      <el-table-column v-if="showTable.jsk3Win2" property="jsk3Win" label="江苏快3" align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.jsk3Win < 0" style="color:red">{{ scope.row.jsk3Win }}</span>
           <span v-else>{{ scope.row.jsk3Win }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="bjcsWin" label="北京赛车" align="center">
+      <el-table-column v-if="showTable.jbcsWin2" property="bjcsWin" label="北京赛车" align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.bjcsWin<0" style="color:red">{{ scope.row.bjcsWin }}</span>
           <span v-else>{{ scope.row.bjcsWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="zc" label="占成(%)" align="center" width="75px" />
-      <el-table-column property="xml" label="洗码量(单/双)" align="center" width="120px" />
-      <el-table-column property="xmb" label="洗码比(单/双)%" align="center" width="120px" />
+      <el-table-column property="zc" label="占成(%)" align="center" width="75" />
+      <el-table-column property="xml" label="洗码量(单/双)" align="center" width="120" />
+      <el-table-column property="xmb" label="洗码比(单/双)%" align="center" width="120" />
       <el-table-column property="xmyj" label="洗码佣金" align="center" />
       <el-table-column property="totalMoney" label="总金额" align="center">
         <template slot-scope="scope">
@@ -289,13 +314,13 @@
           <span v-else>{{ scope.row.thisLevelMoney }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="companyMoney" label="交公司金额" align="center" width="90px">
+      <el-table-column property="companyMoney" label="交公司金额" align="center" width="90">
         <template slot-scope="scope">
           <span v-if="scope.row.companyMoney < 0" style="color:red">{{ scope.row.companyMoney }}</span>
           <span v-else>{{ scope.row.companyMoney }}</span>
         </template>
       </el-table-column>
-      <el-table-column v-show="arrJxb[15] === '1'" label="备注" align="center" width="90px">
+      <el-table-column v-show="arrJxb[15] === '1'" label="备注" align="center" width="90">
         <template slot-scope="scope">
           <el-button
             v-show="arrJxb[15]==='1' && scope.row.xm_close === 1"
@@ -315,9 +340,18 @@
     </el-table>
     <!-- <el-row type="flex" align="middle" justify="end" style="padding: 20px 0;"> -->
     <!-- </el-row> -->
-    <h5 style="margin: 10px">
+    <h5 style="margin: 10px; user-select: none">
       直属会员表：
       <el-button size="small" icon="el-icon-document" @click="excelExport(3)">导出</el-button>
+      <el-checkbox v-model="showTable.sscWin3" class="filter-item" style="margin-left:15px; color: #FF5722" @change="tableKey=tableKey+1">
+        时时彩
+      </el-checkbox>
+      <el-checkbox v-model="showTable.jsk3Win3" class="filter-item" style="color: #FF5722" @change="tableKey=tableKey+1">
+        江苏快3
+      </el-checkbox>
+      <el-checkbox v-model="showTable.bjcsWin3" class="filter-item" style="margin-left: -5px; color: #FF5722" @change="tableKey=tableKey+1">
+        北京赛车
+      </el-checkbox>
       <el-pagination
         :current-page="1"
         :page-size="pageSize"
@@ -351,16 +385,20 @@
           <span v-if="scope.row.name==='所有统计'">{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="level" fixed label="级别" align="center" width="60px" />
+      <el-table-column property="level" fixed label="级别" align="center" width="60">
+        <template slot-scope="{row}">
+          <font color="#00BFA5">{{ row.level }}</font>
+        </template>
+      </el-table-column>
       <el-table-column property="nikename" fixed label="名称" align="center" />
       <el-table-column property="betNum" label="投注次数" align="center" />
-      <el-table-column property="totalWin" label="总输赢金额" align="center" width="90px">
+      <el-table-column property="totalWin" label="总输赢金额" align="center" width="90">
         <template slot-scope="scope">
           <span v-if="scope.row.totalWin < 0" style="color:red">{{ scope.row.totalWin }}</span>
           <span v-else>{{ scope.row.totalWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="bjlWin" label="百家乐输赢" align="center" width="90px">
+      <el-table-column property="bjlWin" label="百家乐输赢" align="center" width="90">
         <template slot-scope="scope">
           <span v-if="scope.row.bjlWin < 0" style="color:red">{{ scope.row.bjlWin }}</span>
           <span v-else>{{ scope.row.bjlWin }}</span>
@@ -378,45 +416,45 @@
           <span v-else>{{ scope.row.nnWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="dxWin" label="大小点" align="center" width="70px">
+      <el-table-column property="dxWin" label="大小点" align="center" width="70">
         <template slot-scope="scope">
           <span v-if="scope.row.dxWin < 0" style="color:red">{{ scope.row.dxWin }}</span>
           <span v-else>{{ scope.row.dxWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="ttsWin" label="推筒子" align="center" width="70px">
+      <el-table-column property="ttsWin" label="推筒子" align="center" width="70">
         <template slot-scope="scope">
           <span v-if="scope.row.ttsWin < 0" style="color:red">{{ scope.row.ttsWin }}</span>
           <span v-else>{{ scope.row.ttsWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="xjhWin" label="炸金花" align="center" width="70px">
+      <el-table-column property="xjhWin" label="炸金花" align="center" width="70">
         <template slot-scope="scope">
           <span v-if="scope.row.xjhWin < 0" style="color:red">{{ scope.row.xjhWin }}</span>
           <span v-else>{{ scope.row.xjhWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="sscWin" label="时时彩" align="center" width="70px">
+      <el-table-column v-if="showTable.sscWin3" property="sscWin" label="时时彩" align="center" width="70">
         <template slot-scope="scope">
           <span v-if="scope.row.sscWin < 0" style="color:red">{{ scope.row.sscWin }}</span>
           <span v-else>{{ scope.row.sscWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="jsk3Win" label="江苏快3" align="center">
+      <el-table-column v-if="showTable.jsk3Win3" property="jsk3Win" label="江苏快3" align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.jsk3Win < 0" style="color:red">{{ scope.row.jsk3Win }}</span>
           <span v-else>{{ scope.row.jsk3Win }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="bjcsWin" label="北京赛车" align="center">
+      <el-table-column v-if="showTable.bjcsWin3" property="bjcsWin" label="北京赛车" align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.bjcsWin < 0" style="color:red">{{ scope.row.bjcsWin }}</span>
           <span v-else>{{ scope.row.bjcsWin }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="zc" label="占成(%)" align="center" width="70px" />
-      <el-table-column property="xml" label="洗码量(单/双)" align="center" width="120px" />
-      <el-table-column property="xmb" label="洗码比(单/双)%" align="center" width="120px" />
+      <el-table-column property="zc" label="占成(%)" align="center" width="70" />
+      <el-table-column property="xml" label="洗码量(单/双)" align="center" width="120" />
+      <el-table-column property="xmb" label="洗码比(单/双)%" align="center" width="120" />
       <el-table-column property="xmyj" label="洗码佣金" align="center" />
       <el-table-column property="totalMoney" label="总金额" align="center">
         <template slot-scope="scope">
@@ -430,7 +468,7 @@
           <span v-else>{{ scope.row.thisLevelMoney }}</span>
         </template>
       </el-table-column>
-      <el-table-column property="companyMoney" label="交公司金额" align="center" width="90px">
+      <el-table-column property="companyMoney" label="交公司金额" align="center" width="90">
         <template slot-scope="scope">
           <span v-if="scope.row.companyMoney < 0" style="color:red">{{ scope.row.companyMoney }}</span>
           <span v-else>{{ scope.row.companyMoney }}</span>
@@ -457,7 +495,7 @@
 
     <!-- <el-row type="flex" align="middle" justify="end" style="padding: 20px 0;">
     </el-row> -->
-    <el-dialog title="检测密码" :visible.sync="reportDlgFrm.pwDigFrmVisible" width="300px">
+    <el-dialog title="检测密码" :visible.sync="reportDlgFrm.pwDigFrmVisible" width="300">
       请输入安全码:
       <el-input v-model="reportDlgFrm.pw" placeholder="请输入安全码" class="inputBox" style="width:155px" />
       <br>
@@ -496,16 +534,17 @@ export default {
       xm_ok: false,
       xm_pw_ok: false,
       sendXmStr: '',
-      reportFrm: {
-        tableData1: [{}],
-        tableData2: [],
-        tableData3: [],
-        tableData4: [],
-        tableData5: [],
-        agents: [this.$Global.optioner.UserName],
-        totalItemsNum1: 0,
-        totalItemsNum2: 0,
-        state: 0
+      tableKey: 0,
+      showTable: {
+        sscWin1: false,
+        jsk3Win1: false,
+        bjcsWin1: false,
+        sscWin2: false,
+        jsk3Win2: false,
+        bjcsWin2: false,
+        sscWin3: false,
+        jsk3Win3: false,
+        bjcsWin3: false
       },
       form: {
         name: '',
@@ -537,13 +576,13 @@ export default {
     ...mapState({ reportRecord: state => state.ht.reportForm }),
     // eslint-disable-next-line
     stateDemo() {
-      // this.reportRecord = this.$store.state.reportForm
+      // this.reportRecord = this.$store.state.ht.reportForm
       // if (this.reportRecord.state === 1) this.loading = false
-      if (this.$store.state.xm_ok === true) {
+      if (this.$store.state.ht.xm_ok === true) {
         // this.$router.push({ path: '/log' })
         this.$store.commit('ht/setXmState', false)
       }
-      if (this.$store.state.xm_pw_ok === true) {
+      if (this.$store.state.ht.xm_pw_ok === true) {
         this.$store.commit('ht/setXmPwOk', false)
         // eslint-disable-next-line
         this.reportDlgFrm.pwDigFrmVisible = false
@@ -580,6 +619,7 @@ export default {
         Id = this.$Global.optioner.Id
       }
       this.sendStr(Id, name, 1, 1)
+      console.log('report .... ', this.reportRecord)
     },
     doReFresh() {
       this.doFind()
@@ -623,32 +663,6 @@ export default {
       var d1 = this.endDate
       var date1 = this.$moment(d).format('YYYY-MM-DD') + ' ' + this.$moment(this.startTime).format('HH:mm:ss')
       var date2 = this.$moment(d1).format('YYYY-MM-DD') + ' ' + this.$moment(this.endTime).format('HH:mm:ss')
-      // var date1 =
-      //   d.getFullYear() +
-      //   '-' +
-      //   Number(d.getMonth() + 1) +
-      //   '-' +
-      //   d.getDate() +
-      //   ' ' +
-      //   d1.getHours() +
-      //   ':' +
-      //   d1.getMinutes() +
-      //   ':' +
-      //   d1.getSeconds();
-      // d = this.endDate
-      // d1 = this.endTime
-      // var date2 =
-      //   d.getFullYear() +
-      //   '-' +
-      //   Number(d.getMonth() + 1) +
-      //   '-' +
-      //   d.getDate() +
-      //   ' ' +
-      //   d1.getHours() +
-      //   ':' +
-      //   d1.getMinutes() +
-      //   ':' +
-      //   d1.getSeconds()
       return [date1, date2]
     },
     handleCurrentChange(val) {
@@ -776,65 +790,6 @@ export default {
       })
       return sums
     },
-    // doSelectDate(n) {
-    //   //设定日期选项
-    //   var d = this.getDate(n)
-    //   // console.log('ddddddd ', d)
-    //   this.startDate = d.d1
-    //   this.endDate = d.d2
-    // },
-    // getDate(n) {
-    //   var now = new Date() // 当前日期
-    //   var nowDayOfWeek = now.getDay() // 今天本周的第几天
-    //   var nowDay = now.getDate() // 当前日
-    //   var nowMonth = now.getMonth() // 当前月
-    //   var nextMonth = now.getMonth() + 1
-    //   var nowYear = now.getYear() // 当前年
-    //   // console.log('newYear ', nowYear)
-    //   nowYear += nowYear < 2000 ? 1900 : 0
-    //   console.log('noooooooo', now, nowDayOfWeek, nowDay, nowMonth, nextMonth, nowYear)
-
-    //   var lastMonthDate = new Date() // 上月日期
-    //   lastMonthDate.setDate(1)
-    //   lastMonthDate.setMonth(lastMonthDate.getMonth() - 1)
-    //   var lastYear = lastMonthDate.getYear()
-    //   var lastMonth = lastMonthDate.getMonth()
-    //   console.log('n', n)
-
-    //   if (n === 1)
-    //     return {
-    //       d1: new Date(nowYear, nowMonth, nowDay),
-    //       d2: new Date(nowYear, nowMonth, nowDay + 1)
-    //     }
-    //   if (n === 2)
-    //     return {
-    //       d1: new Date(nowYear, nowMonth, nowDay - 1),
-    //       d2: new Date(nowYear, nowMonth, nowDay)
-    //     }
-    //   if (n === 3)
-    //     return {
-    //       d1: new Date(nowYear, nowMonth, nowDay - nowDayOfWeek + 1),
-    //       d2: new Date(nowYear, nowMonth, nowDay + (6 - nowDayOfWeek + 2))
-    //     }
-    //   if (n === 4)
-    //   //  console.log('444444', 'nowYear: ', nowYear, nowMonth)
-    //     return {
-    //       d1: new Date(new Date(nowYear, nowMonth, nowDay - nowDayOfWeek - 6)),
-    //       d2: new Date(nowYear, nowMonth, nowDay + (6 - nowDayOfWeek - 5))
-    //     }
-    //   if (n === 5)
-    //   // console.log('555555', 'nowYear: ', nowYear, 'lastMonth: ', lastMonth, nowMonth)
-    //     return {
-    //       d1: new Date(nowYear, nowMonth, 1),
-    //       d2: new Date(nowYear, nextMonth, 1)
-    //     }
-    //   if (n === 6)
-    //   // console.log('666666', 'nowYear: ', nowYear, 'lastMonth: ', lastMonth, nowMonth, '\n', new Date(nowYear, lastMonth, 1), new Date(nowYear, nowMonth, 1))
-    //     return {
-    //       d1: new Date(nowYear, lastMonth, 1),
-    //       d2: new Date(nowYear, nowMonth, 1)
-    //     }
-    // },
     excelExport(val) {
       switch (val) {
         case 1:
@@ -1040,7 +995,7 @@ export default {
       }
       this.sendXmStr = sendStr
       this.reportDlgFrm.pwDigFrmVisible = true
-      this.$store.commit('setXmState', false)
+      this.$store.commit('ht/setXmState', false)
     },
     handleXm(row) {
       // n=1代理,n=2会员
@@ -1089,57 +1044,6 @@ export default {
       }
       return ''
     }
-    // exportExcel() {
-    //   const wb = XLSX.utils.table_to_book(document.querySelector('#report1')) // 表格的id名
-    //   const wbout = XLSX.write(wb, {
-    //     bookType: 'xlsx',
-    //     bookSST: true,
-    //     type: 'array'
-    //   })
-    //   try {
-    //     FileSaver.saveAs(
-    //       new Blob([wbout], { type: 'application/octet-stream' }),
-    //       '报表1.xlsx'
-    //     )
-    //   } catch (e) {
-    //     if (typeof console !== 'undefined') console.log(e, wbout)
-    //   }
-    //   return wbout
-    // },
-    // exportExcel2() {
-    //   const wb = XLSX.utils.table_to_book(document.querySelector('#report2')) // 表格的id名
-    //   const wbout = XLSX.write(wb, {
-    //     bookType: 'xlsx',
-    //     bookSST: true,
-    //     type: 'array'
-    //   })
-    //   try {
-    //     FileSaver.saveAs(
-    //       new Blob([wbout], { type: 'application/octet-stream' }),
-    //       '报表2.xlsx'
-    //     )
-    //   } catch (e) {
-    //     if (typeof console !== 'undefined') console.log(e, wbout)
-    //   }
-    //   return wbout
-    // },
-    // exportExcel3() {
-    //   const wb = XLSX.utils.table_to_book(document.querySelector('#report3')) // 表格的id名
-    //   const wbout = XLSX.write(wb, {
-    //     bookType: 'xlsx',
-    //     bookSST: true,
-    //     type: 'array'
-    //   })
-    //   try {
-    //     FileSaver.saveAs(
-    //       new Blob([wbout], { type: 'application/octet-stream' }),
-    //       '报表3.xlsx'
-    //     )
-    //   } catch (e) {
-    //     if (typeof console !== 'undefined') console.log(e, wbout)
-    //   }
-    //   return wbout
-    // }
   }
 }
 </script>
@@ -1157,40 +1061,4 @@ export default {
   border-bottom: 1px solid grey !important;
   border-left: none !important; */
 }
-/* .report > .head > .el-col > .el-col {
-  padding: 20px 5px;
-  border-right: solid 1px rgba(255, 220, 136, 0.15);
-}
-.report .head {
-  text-align: center;
-  color: #fff;
-  font-size: 30px;
-  margin-bottom: 50px;
-}
-.report .head span {
-  font-size: 16px;
-}
-.inputBox .el-input__inner {
-  height: 30px !important;
-  width: 155px;
-  padding: 5px;
-}
-.row-bg {
-  padding: 1px;
-  height: 40px;
-}
-.formBtn {
-  margin-top: 0px;
-}
-#topCar7 {
-  margin-top: 0px;
-  width: 100%;
-  height: 125px;
-  padding: 0px;
-}
-#box-card {
-  margin-top: 5px;
-  margin-left: 0px;
-  padding: 0px;
-} */
 </style>

@@ -156,7 +156,7 @@ export default {
           optioner_name: this.$Global.optioner.UserName,
           level: 3, // 因为代理和会员共用,所以要分开级别
           opt: opt,
-          loginIp: this.$store.state.ip || ''
+          loginIp: this.$store.state.ht.ip || ''
         }
       }
       // console.log('send ', sendStr)

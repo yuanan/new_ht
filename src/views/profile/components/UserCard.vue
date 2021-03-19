@@ -1,7 +1,7 @@
 <template>
   <el-card style="margin-bottom:20px;">
     <div slot="header" class="clearfix">
-      <span>关于我的</span>
+      <span style="user-select: none">关于我的</span>
     </div>
 
     <div class="user-profile">
@@ -9,7 +9,6 @@
         <pan-thumb :image="user.avatar" :height="'100px'" :width="'100px'" :hoverable="false">
           <div style="margin-top: 20px; color: ">142857</div>
           <!-- {{ user.role }} -->
-          
         </pan-thumb>
       </div>
       <div class="box-center">
@@ -21,7 +20,7 @@
 
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>致你我</span></div>
+        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span style="user-select: none">致你我</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
             心有多大，舞台就有多大。只有想不到的，没有做不到的！加油！
@@ -30,7 +29,7 @@
       </div>
 
       <div class="user-skills user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>基本信息</span></div>
+        <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span style="user-select: none">基本信息</span></div>
         <div class="user-bio-section-body">
           <div class="progress-item">
             <span>账号 </span>
@@ -90,6 +89,7 @@ export default {
 
 .text-muted {
   color: #777;
+  user-select: none;
 }
 
 .user-profile {
@@ -139,5 +139,8 @@ export default {
       font-weight: bold;
     }
   }
+}
+.progress-item {
+  user-select: none;
 }
 </style>

@@ -2,10 +2,10 @@
   <div class="memberList">
     <el-form ref="form" :inline="true" :model="form" label-width="90px" size="medium">
       <el-form-item prop="account">
-        <el-input v-model="form.account" placeholder="会员账号" class="inputBox" @keyup.native="btKeyUp" @keydown.enter.native="doFindMember" />
+        <el-input v-model="form.account" placeholder="会员账号" clearable @keyup.native="btKeyUp" @keydown.enter.native="doFindMember" />
       </el-form-item>
       <el-form-item prop="nikename">
-        <el-input v-model="form.nikename" placeholder="昵称" class="inputBox" @keyup.native="btKeyUp" @keydown.enter.native="doFindMember" />
+        <el-input v-model="form.nikename" placeholder="昵称" clearable @keyup.native="btKeyUp" @keydown.enter.native="doFindMember" />
       </el-form-item>
       <el-form-item>
         <el-button size="medium" icon="el-icon-search" type="primary" @click="doFindMember()">查找</el-button>
@@ -16,7 +16,7 @@
     </el-form>
 
     <el-row :gutter="20">
-      <el-col :span="19">
+      <el-col :span="19" :xs="24" :sm="24" :md="18" :lg="19" :xl="19">
         <el-card>
           <el-button size="small" icon="el-icon-document" style="margin-bottom: 10px" @click="excelExport()">导出</el-button>
           <el-checkbox v-model="showTable.createDate" class="filter-item" style="margin-left:15px; color: #FF5722" @change="tableKey=tableKey+1">
@@ -53,18 +53,23 @@
               </template>
             </el-table-column>
             <el-table-column property="name" fixed label="昵称" align="left" />
-            <el-table-column property="mBalance" fixed label="当前余额" align="left" />
+            <el-table-column property="mBalance" label="当前余额" align="right" />
             <el-table-column property="upperAgent" label="所属代理" align="left">
               <template slot-scope="scope">
                 <font color="#9c27b0" style="cursor: pointer" @click="getMemberRelations(scope.row.upperAgent)">{{ scope.row.upperAgent }}</font>
               </template>
             </el-table-column>
-            <el-table-column property="xmKind" label="洗码类型" align="left" min-width="90" />
-            <el-table-column property="xmb" label="洗码比(单/双)%" align="left" min-width="80px" />
-            <el-table-column v-if="showTable.createDate" property="createDate" label="开户日期" align="left" min-width="110px" />
+            <el-table-column property="xmKind" label="洗码类型" align="left" width="80">
+              <template slot-scope="{row}">
+                <font v-if="row.xmKind === '双边'" color="#1E88E5">{{ row.xmKind }}</font>
+                <font v-else color="#FB8C00">{{ row.xmKind }}</font>
+              </template>
+            </el-table-column>
+            <el-table-column property="xmb" label="洗码比(单/双)%" align="left" width="80" />
+            <el-table-column v-if="showTable.createDate" property="createDate" label="开户日期" align="left" min-width="110" />
             <el-table-column v-if="showTable.LastLoginIP" property="lastLoginIp" label="最近登录IP" align="left" min-width="110" />
-            <el-table-column v-if="showTable.lastLogin" property="lastLoginTime" label="最近登录" align="left" min-width="110px" />
-            <el-table-column property="onLine" label="在线" align="left" width="80">
+            <el-table-column v-if="showTable.lastLogin" property="lastLoginTime" label="最近登录" align="left" min-width="110" />
+            <el-table-column property="onLine" label="在线" align="left" width="60">
               <template slot-scope="scope">
                 <span v-show="scope.row.onLine==='在线'">
                   <font color="red">{{ scope.row.onLine }}</font>
@@ -72,7 +77,7 @@
                 <span v-show="scope.row.onLine==='离线'">{{ scope.row.onLine }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="sEnable" label="状态" align="center" width="80px">
+            <el-table-column prop="sEnable" label="状态" align="center" width="80">
               <template slot-scope="scope">
                 <el-switch
                   v-model="scope.row.sEnable"
@@ -85,7 +90,7 @@
               </template>
             </el-table-column>
 
-            <el-table-column label="操作" align="left" width="230px" padding="0px">
+            <el-table-column label="操作" align="left" width="210" padding="0px">
               <template slot-scope="scope">
                 <el-button
                   v-if="arrJxb[7]==='1'"
@@ -125,10 +130,10 @@
           />
         </el-card>
       </el-col>
-      <el-col :span="5">
+      <el-col :span="5" :xs="24" :sm="24" :md="6" :lg="5" :xl="5">
         <el-row>
           <el-card>
-            <font color="grey" size="2">关系 : </font>
+            <font color="grey" size="2" style="user-select: none">关系 : </font>
             <el-button v-for="i in relation" :key="i" type="text" size="medium" @click="handleRelationsBtn(i)">{{ i }} > </el-button>
           </el-card>
         </el-row>
@@ -171,6 +176,7 @@
   </div>
 </template>
 <script>
+/* eslint-disable */
 // import { mapState } from "vuex"
 import ExportExcel from '@/components/ExportExcel'
 import UpDown from './member-action/up-down'
@@ -412,7 +418,7 @@ export default {
       // if (!this.wsData.tableData || this.wsData.tableData.length <= 1) return
       var content = this.wsData.tableData
       for (var i = 0; i < content.length; i++) {
-        var d = content[i].gx.split("^")
+        var d = content[i].gx.split('^')
         var dd = d[d.length - 2]
         content[i].pid = dd // 上家的id
         content[i].children = []
@@ -587,5 +593,8 @@ export default {
 .relations{
   display: flex;
   margin-bottom: 10px;
+}
+.tree {
+  user-select: none;
 }
 </style>

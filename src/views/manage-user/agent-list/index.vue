@@ -2,10 +2,10 @@
   <div class="agentList">
     <el-form ref="form" :inline="true" :model="form" :rules="rules" size="medium">
       <el-form-item>
-        <el-input v-model="form.account" placeholder="代理账号" class="inputBox" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindAgent()" />
+        <el-input v-model="form.account" placeholder="代理账号" clearable @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindAgent()" />
       </el-form-item>
       <el-form-item>
-        <el-input v-model="form.nikename" placeholder="昵称" class="inputBox" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindAgent()" />
+        <el-input v-model="form.nikename" placeholder="昵称" clearable @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindAgent()" />
       </el-form-item>
       <el-form-item>
         <el-button size="medium" type="primary" icon="el-icon-search" @click="doFindAgent()">搜索</el-button>
@@ -19,7 +19,7 @@
     </el-form>
 
     <el-row :gutter="20">
-      <el-col :span="19">
+      <el-col :span="19" :xs="24" :sm="24" :md="18" :lg="19" :xl="19">
         <el-card>
           <el-button size="small" icon="el-icon-document" style="margin-bottom: 10px; margin-right: 10px;" @click="excelExport()">导出</el-button>
           <!-- <el-dropdown trigger="click">
@@ -77,16 +77,21 @@
                 <span v-show="scope.row.onLine === '离线'">{{ scope.row.name }}</span>
               </template>
             </el-table-column>
-            <el-table-column property="aBalance" label="当前余额" />
+            <el-table-column property="aBalance" label="当前余额" align="right" />
             <el-table-column property="reference_name" label="上级代理" min-width="100">
               <template slot-scope="{row}">
                 <font color="#F44336">{{ row.reference_name }}</font>
               </template>
             </el-table-column>
-            <el-table-column property="zcb" label="占成比(%)" width="90px" />
-            <el-table-column property="xmb" label="洗码比(单/双)%" width="80px" />
-            <el-table-column property="xmType" label="洗码类型" width="80" />
-            <el-table-column prop="sEnable" label="状态" width="80px" align="center">
+            <el-table-column property="zcb" label="占成比(%)" width="70" />
+            <el-table-column property="xmb" label="洗码比(单/双)%" width="80" />
+            <el-table-column property="xmType" label="洗码类型" width="60">
+              <template slot-scope="{row}">
+                <font v-if="row.xmType === '双边'" color="#1E88E5">{{ row.xmType }}</font>
+                <font v-else color="#FB8C00">{{ row.xmType }}</font>
+              </template>
+            </el-table-column>
+            <el-table-column prop="sEnable" label="状态" width="70px" align="center">
               <template slot-scope="scope">
                 <el-switch
                   v-model="scope.row.sEnable"
@@ -98,10 +103,10 @@
                 />
               </template>
             </el-table-column>
-            <el-table-column v-if="showTable.createDate" property="createDate" label="开户时间" min-width="110px" />
-            <el-table-column v-if="showTable.LastLogin" property="lastLoginTime" label="最近登录" min-width="110px" />
+            <el-table-column v-if="showTable.createDate" property="createDate" label="开户时间" min-width="110" />
+            <el-table-column v-if="showTable.LastLogin" property="lastLoginTime" label="最近登录" min-width="110" />
             <el-table-column v-if="showTable.LastLoginIP" property="loginIp" label="登录IP" />
-            <el-table-column label="操作" width="370px">
+            <el-table-column label="操作" width="370">
               <template slot-scope="scope">
                 <el-button v-if="arrJxb[7] === '1'" type="success" class="el-button-opt" @click="handleOptScore(scope.$index, scope.row, 1)">上/下分</el-button>
                 <el-button v-if="arrJxb[3] === '1'" icon="el-icon-edit" type="primary" class="el-button-opt" @click="handleAgentSetup(scope.$index, scope.row)">设定</el-button>
@@ -109,7 +114,7 @@
                 <el-button v-if="arrJxb[6] === '1'" icon="el-icon-plus" type="danger" class="el-button-opt2" @click="handleAddMember(scope.$index, scope.row, 1)">代理/玩家</el-button>
                 <el-dropdown style="margin-left: 10px;">
                   <span class="el-dropdown-link">
-                    更多<i class="el-icon-arrow-down el-icon--right"></i>
+                    更多<i class="el-icon-arrow-down el-icon--right" />
                   </span>
                   <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>
@@ -145,10 +150,10 @@
           />
         </el-card>
       </el-col>
-      <el-col :span="5">
+      <el-col :span="5" :xs="24" :sm="24" :md="6" :lg="5" :xl="5">
         <el-row>
           <el-card>
-            <font color="grey" size="2">关系 : </font>
+            <font color="grey" size="2" style="user-select: none">关系 : </font>
             <el-button v-for="i in relation" :key="i" type="text" size="medium" @click="handleRelationsBtn(i)">{{ i }} > </el-button>
           </el-card>
         </el-row>
@@ -711,5 +716,8 @@ export default {
 .relations{
   display: flex;
   margin-bottom: 10px;
+}
+.custom-tree-node {
+  user-select: none;
 }
 </style>

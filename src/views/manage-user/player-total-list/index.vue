@@ -2,10 +2,10 @@
   <div class="memberTotalList">
     <el-form ref="form" inline :model="form" size="medium">
       <el-form-item prop="account">
-        <el-input v-model="form.account" placeholder="玩家账号" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindMember()" />
+        <el-input v-model="form.account" placeholder="玩家账号" clearable @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindMember()" />
       </el-form-item>
       <el-form-item prop="nikename">
-        <el-input v-model="form.nikename" placeholder="昵称" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindMember()" />
+        <el-input v-model="form.nikename" placeholder="昵称" clearable @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindMember()" />
       </el-form-item>
       <el-form-item>
         <el-button size="medium" type="primary" icon="el-icon-search" @click="doFindMember()">查找</el-button>
@@ -74,7 +74,7 @@
             <font color="#9c27b0">{{ scope.row.upperAgent }}</font>
           </template>
         </el-table-column>
-        <el-table-column property="mBalance" sortable label="当前余额" align="left" />
+        <el-table-column property="mBalance" sortable label="当前余额" align="right" />
         <el-table-column property="roomAddr" label="所在房间" align="left" />
         <el-table-column property="xmb" label="洗码比(单/双)%" align="left" width="80px" />
         <el-table-column property="lastLoginIp" label="最近登录ip" align="left" min-width="100" />

@@ -10,10 +10,10 @@
         <el-time-picker v-model="endTime" arrow-control placeholder="选择时间点" style="width:120px" />
       </el-form-item>
       <el-form-item>
-        <el-input v-model="name" placeholder="用户账号" style="width:160px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindLoginLog()" />
+        <el-input v-model="name" placeholder="用户账号" clearable style="width:160px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindLoginLog()" />
       </el-form-item>
       <el-form-item>
-        <el-input v-model="loginIp" placeholder="登录IP" style="width:160px" @keydown.enter.native="doFindLoginLog()" />
+        <el-input v-model="loginIp" placeholder="登录IP" clearable style="width:160px" @keydown.enter.native="doFindLoginLog()" />
       </el-form-item>
       <el-form-item>
         <el-button size="medium" icon="el-icon-search" type="primary" @click="doFindLoginLog()">查找</el-button>
@@ -57,10 +57,16 @@
         <el-table-column property="name" label="帐号" align="center" />
         <el-table-column property="level" label="级别" align="center">
           <template slot-scope="{row}">
-            <span>{{ (row.level === 2 || row.level === 1) ? '代理' : '会员' }}</span>
+            <font v-if="row.level === 2 || row.level === 1" color="#00B0FF">{{ '代理' }}</font>
+            <font v-else color="#00BFA5">{{ '会员' }}</font>
           </template>
         </el-table-column>
-        <el-table-column property="loginAddr" label="登录位置" align="center" />
+        <el-table-column property="loginAddr" label="登录设配" align="center">
+          <template slot-scope="{row}">
+            <font v-if="row.loginAddr === 'pc'" color="#795548">{{ 'PC' }}</font>
+            <font v-else color="#4CAF50">{{ 'Mobile' }}</font>
+          </template>
+        </el-table-column>
         <el-table-column property="loginIp" label="登录IP" align="center" />
         <el-table-column property="loginTime" label="登录时间" align="center" />
         <el-table-column property="memo" label="备注" align="center" />

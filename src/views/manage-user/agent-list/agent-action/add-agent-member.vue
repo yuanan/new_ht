@@ -206,7 +206,7 @@ export default {
           opt_name: this.$Global.optioner.UserName,
           opt_Id: this.$Global.optioner.Id,
           upper_name: this.propData.agentAccount,
-          ip: this.$store.state.ip || ''
+          ip: this.$store.state.ht.ip || ''
         }
       }
       this.$store.commit('ht/setAddMemberState', false)

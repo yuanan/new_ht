@@ -121,5 +121,6 @@ export default {
   line-height: 25px;
   margin: 15px 0;
   padding: 10px;
+  user-select: none;
 }
 </style>

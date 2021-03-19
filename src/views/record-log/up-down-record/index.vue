@@ -10,10 +10,10 @@
         <el-time-picker v-model="endTime" arrow-control placeholder="选择时间点" style="width:120px" />
       </el-form-item>
       <el-form-item>
-        <el-input v-model="name" placeholder="用户账号" style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindAccountLog()" />
+        <el-input v-model="name" placeholder="用户账号" clearable style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindAccountLog()" />
       </el-form-item>
       <el-form-item>
-        <el-input v-model="optioner" placeholder="操作员账号" style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindAccountLog()" />
+        <el-input v-model="optioner" placeholder="操作员账号" clearable style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" @keydown.enter.native="doFindAccountLog()" />
       </el-form-item>
       <el-form-item>
         <el-select v-model="optType" placeholder="全部" style="width:155px">
@@ -26,7 +26,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="memo" placeholder="备注" style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" />
+        <el-input v-model="memo" placeholder="备注" clearable style="width:150px" @keyup.native="btKeyUp" @keydown.native="btKeyUp" />
       </el-form-item>
       <el-form-item>
         <el-button size="medium" icon="el-icon-search" type="primary" @click="doFindAccountLog()">查找</el-button>
@@ -78,7 +78,8 @@
         <el-table-column property="nikename" label="用户名称" align="center" />
         <el-table-column property="level" label="级别" align="center" width="50px">
           <template slot-scope="{row}">
-            <span>{{ (row.level === 2 || row.level === 1) ? '代理' : '会员' }}</span>
+            <font v-if="row.level === 2 || row.level === 1" color="#00B0FF">{{ '代理' }}</font>
+            <font v-else color="#00BFA5">{{ '会员' }}</font>
           </template>
         </el-table-column>
         <el-table-column property="type" label="类型" align="center" width="100px">

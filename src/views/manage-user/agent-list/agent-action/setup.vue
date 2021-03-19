@@ -179,7 +179,7 @@ export default {
               ? this.$md5(frm.oneKeyPw + this.$Global.addPwStr)
               : '', // 密码都要加盐
           webAddr: frm.webAddr || '',
-          ip: this.$store.state.ip || '',
+          ip: this.$store.state.ht.ip || '',
           optName: this.$Global.optioner.UserName
         }
       }

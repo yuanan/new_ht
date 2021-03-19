@@ -95,6 +95,12 @@ div:focus {
     clear: both;
     height: 0;
   }
+  .title-fix {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 28px;
+    user-select: none;
+  }
 }
 
 aside {

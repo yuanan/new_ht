@@ -20,12 +20,16 @@
         <span style="word-wrap:break-word;">http://{{ webSite.service }}</span>
       </div>
       <div class="progress-item">
-        <span>新版代理网址 | </span>
+        <span>老版代理网址 | </span>
         <span>http://{{ agent.old1 }}</span>
       </div>
       <div class="progress-item">
-        <span>老版代理网址 | </span>
+        <span>手机代理网址 | </span>
         <span>http://{{ agent.old2 }}</span>
+      </div>
+      <div class="progress-item">
+        <span>新版代理网址 | </span>
+        <span>http://{{ agent.new }}</span>
       </div>
     </div>
   </el-card>
@@ -49,8 +53,8 @@ export default {
       },
       agent: {
         old1: 'hn2201.com',
-        old2: 'hn2210.com',
-        new: 'dl8808.com'
+        old2: 'proxy.hn885.com/m',
+        new: 'hn2201.com/new'
       }
     }
   },
@@ -118,7 +122,8 @@ export default {
 .box-card-component {
   .box-card-header {
     position: relative;
-    height: 220px;
+    height: 200px;
+    user-select: none;
     img {
       width: 100%;
       height: 100%;

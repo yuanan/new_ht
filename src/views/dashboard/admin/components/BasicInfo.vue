@@ -3,11 +3,12 @@
     <el-tabs type="border-card">
       <el-tab-pane>
         <span slot="label"><i class="el-icon-info" /> 账户信息</span>
-        <el-table :data="myCenter.userValue" border highlight-current-row style="width: 100%">
+        <el-table :data="myCenter.userValue" border highlight-current-row style="width: 100%;">
           <el-table-column prop="name" label="帐号" />
           <el-table-column prop="level" label="级别">
             <template slot-scope="{row}">
-              <font>{{ (row.level === '3' || row.level === 3) ? '会员' : '代理' }}</font>
+              <font v-if="row.level === '3' || row.level === 3" color="#00BFA5">{{ '会员' }}</font>
+              <font v-else color="#00B0FF">{{ '代理' }}</font>
             </template>
           </el-table-column>
           <el-table-column prop="zcb" label="占成比" />
@@ -18,8 +19,12 @@
         </el-table>
       </el-tab-pane>
       <el-tab-pane>
-        <span slot="label"><i class="el-icon-full-screen" /> 推广二维码</span>
+        <span slot="label"><i class="el-icon-full-screen" /> 个人推广二维码</span>
         <div id="qrCode" ref="qrCodeDiv" />
+        <div style="display: flex; margin: 10px 10px 0 0;">
+          <div>个人推广网址：</div>
+          <div style="cursor: text; color: #F44336;">{{ webSit }}</div>
+        </div>
       </el-tab-pane>
     </el-tabs>
     <br>
@@ -73,7 +78,7 @@ export default {
         height: 190,
         colorDark: '#333333', // 二维码颜色
         colorLight: '#ffffff', // 二维码背景色
-        correctLevel: QRCode.CorrectLevel.L // 容错率，L/M/H
+        correctLevel: QRCode.CorrectLevel.H // 容错率，L/M/H
       })
     }
   }

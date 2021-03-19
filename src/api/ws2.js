@@ -673,6 +673,11 @@ function editUserInfo (rData) {
       formData.tableData[i].zcb = msg.zcb
       formData.tableData[i].name = msg.nikename
       formData.tableData[i].xmb = msg.xmb_s + '/' + msg.xmb_d
+      if (msg.level === 2) {
+        formData.tableData[i].xmType = msg.xmKind === 0 ? '双边' : '单边'
+      } else {
+        formData.tableData[i].xmKind = msg.xmKind === 0 ? '双边' : '单边'
+      }
     }
   }
   console.log('wssssssssssssssssss ', formData)

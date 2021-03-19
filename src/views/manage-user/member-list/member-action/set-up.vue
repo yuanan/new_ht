@@ -15,7 +15,7 @@
           <el-select v-if="this.$Global.gxLength === 2 || this.$Global.optioner.arrJxb[18] === '1'" v-model="p.xmKind" placeholder="请选择洗码类型" style="width:155px">
             <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
-          <el-input v-else v-model="memberSetupDigFrm.xmKind" autocomplete="off" :disabled="true" />
+          <el-input v-else v-model="p.xmKind" autocomplete="off" :disabled="true" />
         </el-form-item>
 
         <el-form-item v-if="checkSD === '单边' || arrJxb[18] === '1'" label="洗码率单(%)">
@@ -83,7 +83,8 @@ export default {
         accountPw: '',
         xmb_s: '',
         xmb_d: '',
-        drawMoneyPw: ''
+        drawMoneyPw: '',
+        xmKind: ''
       }
     }
   },
@@ -166,7 +167,7 @@ export default {
           drawMoneyPw: this.p.drawMoneyPw != '' ? this.$md5(this.p.drawMoneyPw) : '',
           webAddr: this.p.webAddr || '',
           level: 3,
-          ip: this.$store.state.ip || '',
+          ip: this.$store.state.ht.ip || '',
           optName: this.$Global.optioner.UserName
         }
       }
